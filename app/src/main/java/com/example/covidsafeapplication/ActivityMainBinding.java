@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class ActivityMainBinding extends AppCompatActivity {
 
 
-    ActivityMainBinding binding;
+//    ActivityMainBinding binding;
     ArrayList<String> tauxList;
     Handler mainHandler = new Handler();
     ProgressDialog progressDialog;
@@ -35,24 +35,27 @@ public class ActivityMainBinding extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fetchButton = (Button) findViewById(R.id.btn_get_data);
-        initList();
-        fetchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new fetchData().start();
-
-            }
-        });
-    }
-
-
-    private void initList() {
-
-
+//        initList();
         tauxList = new ArrayList<>();
-        listAdapter = new ArrayAdapter<String>(this, android.R.layout.activity_list_item,tauxList);
-        //binding.tauxList.setAdapter(listAdapter);
+
+//        fetchButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//
+//            }
+//        });
+
+        new fetchData().start();
+
     }
+
+
+//    private void initList() {
+//        tauxList = new ArrayList<>();
+//        listAdapter = new ArrayAdapter<String>(this, android.R.layout.activity_list_item,tauxList);
+//        //binding.tauxList.setAdapter(listAdapter);
+//    }
 
 
     class fetchData extends Thread{
@@ -60,14 +63,13 @@ public class ActivityMainBinding extends AppCompatActivity {
 
         String data = "";
 
-
-
         @Override
         public void run() {
 
             mainHandler.post(new Runnable() {
                 @Override
                 public void run() {
+
 
                     progressDialog = new ProgressDialog(ActivityMainBinding.this);
                     progressDialog.setMessage("Fetching data...");
@@ -78,7 +80,7 @@ public class ActivityMainBinding extends AppCompatActivity {
             });
 
             try {
-                URL url = new URL( "http://192.168.101.1/MyApi/Api.php");
+                URL url = new URL( "https://patryk.alwaysdata.net/CovidSafeRoom/api.php");
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -98,6 +100,7 @@ public class ActivityMainBinding extends AppCompatActivity {
                         JSONObject mes = mesures.getJSONObject(i);
                         String mesure = mes.getString("taux");
                         tauxList.add(mesure);
+                        System.out.println(mesure);
                     }
                 }
 
@@ -108,17 +111,6 @@ public class ActivityMainBinding extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            mainHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (progressDialog.isShowing()){
-                        progressDialog.dismiss();
-
-                    }
-                    listAdapter.notifyDataSetChanged();
-                }
-            });
 
         }
     }
