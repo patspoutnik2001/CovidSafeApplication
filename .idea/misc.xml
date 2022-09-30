@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/patry/AndroidStudioProjects/CovidSafeApplication/app/src/main/res/layout/activity_main.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/Christos/Desktop/Projets Github/CovidSafeApplication/app/src/main/res/layout/activity_main.xml" value="0.4017210144927536" />
+        <entry key="..\:/Users/Christos/Desktop/Projets Github/CovidSafeApplication/app/src/main/res/layout/activity_mainbinding.xml" value="0.1962962962962963" />
+        <entry key="..\:/Users/Christos/Desktop/Projets Github/CovidSafeApplication/app/src/main/res/layout/activity_photo.xml" value="0.284375" />
       </map>
     </option>
   </component>

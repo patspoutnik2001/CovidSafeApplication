@@ -8,14 +8,10 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-
-import com.example.covidsafeapplication.databinding.ActivityMainBinding;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class APITestActivity extends AppCompatActivity {
+public class ActivityMainBinding extends AppCompatActivity {
 
 
     ActivityMainBinding binding;
@@ -38,9 +34,7 @@ public class APITestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
         fetchButton = (Button) findViewById(R.id.btn_get_data);
-        setContentView(binding.getRoot());
         initList();
         fetchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +44,7 @@ public class APITestActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void initList() {
 
@@ -74,7 +69,7 @@ public class APITestActivity extends AppCompatActivity {
                 @Override
                 public void run() {
 
-                    progressDialog = new ProgressDialog(APITestActivity.this);
+                    progressDialog = new ProgressDialog(ActivityMainBinding.this);
                     progressDialog.setMessage("Fetching data...");
                     progressDialog.setCancelable(false);
                     progressDialog.show();
@@ -96,6 +91,7 @@ public class APITestActivity extends AppCompatActivity {
                 if (!data.isEmpty()){
                     JSONObject jsonObject = new JSONObject(data);
                     JSONArray mesures = jsonObject.getJSONArray("taux");
+                    System.out.println(mesures);
                     tauxList.clear();
 
                     for (int i = 0; i < mesures.length(); i++) {
