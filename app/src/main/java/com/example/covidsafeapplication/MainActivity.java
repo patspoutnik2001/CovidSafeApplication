@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 goToPhoto();
+                System.out.println("test");
             }
         });
 
