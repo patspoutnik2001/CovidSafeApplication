@@ -16,6 +16,12 @@
         android:theme="@style/Theme.CovidSafeApplication"
         tools:targetApi="31">
         <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LocalActivity"
+            android:exported="false" />
+        <activity
             android:name=".PhotoActivity"
             android:exported="false" />
         <activity

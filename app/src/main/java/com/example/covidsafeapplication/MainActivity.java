@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.covidsafeapplication.ui.login.LoginActivity;
 
@@ -49,8 +50,24 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        // if the button settings is clicked open settings
+        ImageButton settingsBtn = findViewById(R.id.settings);
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToSettings();
+            }
+        });
 
 
+
+
+
+    }
+
+    private void goToSettings() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 
     private void goToPhoto() {

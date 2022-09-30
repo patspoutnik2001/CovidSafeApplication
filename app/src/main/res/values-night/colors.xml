@@ -10,8 +10,10 @@
 
 
     <!-- Night colors -->
-    <color name="backgroundColor">#FCFCFC</color>
-    <color name="textColor">#000000</color>
+    <color name="backgroundColor">#212121</color>
+    <color name="textColor">#FFFFFF</color>
+
+
 
 
 </resources>
