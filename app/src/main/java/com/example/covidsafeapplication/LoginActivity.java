@@ -9,10 +9,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class LoginActivity extends AppCompatActivity {
 
     Button loginBtn;
     TextView email_input,pass_input;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +26,9 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = (Button) findViewById(R.id.btn_login);
         email_input = (TextView) findViewById(R.id.email_input);
         pass_input = (TextView) findViewById(R.id.password_input);
+        mAuth = FirebaseAuth.getInstance();
+
+
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override

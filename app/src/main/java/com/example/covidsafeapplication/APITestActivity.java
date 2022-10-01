@@ -41,7 +41,7 @@ public class APITestActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    //fetchData();
+                    fetchData();
                 }
             });
         }
@@ -52,20 +52,12 @@ public class APITestActivity extends AppCompatActivity {
 
 
         try {
-            URL url = new URL( "https://patryk.alwaysdata.net/CovidSafeRoom/api.php");
+            //URL url = new URL( "https://patryk.alwaysdata.net/CovidSafeRoom/api.php");
+            URL url = new URL( "https://patryk.alwaysdata.net/mesure.json");
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.connect();
-            InputStream inputStream;
+            InputStream inputStream = httpURLConnection.getInputStream();
 
-            int status = httpURLConnection.getResponseCode();
-            if(status < 400) {
-                System.out.println(status );
-            } else{
-
-            }
-            //InputStream inputStream = httpURLConnection.getInputStream();
-
-            /*BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
             String line;
             while ((line = bufferedReader.readLine())!=null){
@@ -90,13 +82,8 @@ public class APITestActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();*/
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         //Toast.makeText(getApplicationContext(), "All data fetched", Toast.LENGTH_SHORT).show();
         display.setText(tauxList.toString());
