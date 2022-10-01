@@ -1,75 +1,54 @@
 package com.example.covidsafeapplication;
 
-import android.content.Intent;
-import android.graphics.Camera;
-import android.os.Bundle;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.widget.Button;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 
-public class PhotoActivity extends AppCompatActivity {
-
-    TextView testView;
-
-    Camera camera;
-    SurfaceView surfaceView;
-    SurfaceHolder surfaceHolder;
-
-    private final String tag = "VideoServer";
-
-    Button start, stop;
-
-
+public class PhotoActivity extends AppCompatActivity
+{
+    Button btn_scan;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
-
-//        Button loginBtn = (Button) findViewById(R.id.login);
-//        loginBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                goToLocal();
-//            }
-//        });
-
-        start = (Button)findViewById(R.id.qrCodePhoto);
-        start.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View arg0) {
-                start_camera();
-            }
-        });
-
-//        stop = (Button)findViewById(R.id.btn_stop);
-//        stop.setOnClickListener(new Button.OnClickListener() {
-//            public void onClick(View arg0) {
-//                stop_camera();
-//            }
-//        });
-
-//        surfaceView = (SurfaceView)findViewById(R.id.surfaceView1);
-//        surfaceHolder = surfaceView.getHolder();
-//        surfaceHolder.addCallback(this);
-//        surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-
+        btn_scan = findViewById(R.id.btn_scan);
+        btn_scan.setOnClickListener(v->
+                scanCode());
     }
 
-
-    private void goToLocal() {
-        Intent intent = new Intent(this, LocalActivity.class);
-        startActivity(intent);
+    private void scanCode()
+    {
+        ScanOptions options = new ScanOptions();
+        options.setPrompt("Volume up to flash on");
+        options.setBeepEnabled(true);
+        options.setOrientationLocked(true);
+        options.setCaptureActivity(CaptureAct.class);
+        barLaucher.launch(options);
     }
 
-    private void start_camera() {
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        startActivity(intent);
-    }
-
-
-
+    ActivityResultLauncher<ScanOptions> barLaucher = registerForActivityResult(new ScanContract(), result->
+    {
+        if(result.getContents() !=null)
+        {
+            // TODO : mener a la page de resultats scannés
+            AlertDialog.Builder builder = new AlertDialog.Builder(PhotoActivity.this);
+            builder.setTitle("Result");
+            builder.setMessage(result.getContents());
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i)
+                {
+                    dialogInterface.dismiss();
+                }
+            }).show();
+        }
+    });
 
 }
