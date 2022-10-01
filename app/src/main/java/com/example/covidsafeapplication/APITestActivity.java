@@ -32,6 +32,7 @@ public class APITestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apitest);
+
         tauxList = new ArrayList<>();
         display = (TextView) findViewById(R.id.data_output);
         fetch_btn = (Button) findViewById(R.id.btn_fetch_data);
@@ -39,23 +40,34 @@ public class APITestActivity extends AppCompatActivity {
             fetch_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    fetchData();
+
+                    //fetchData();
                 }
             });
         }
     }
 
-    private void fetchData() {
+    public void fetchData() {
         String data = "";
 
 
         try {
             URL url = new URL( "https://patryk.alwaysdata.net/CovidSafeRoom/api.php");
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            InputStream inputStream = httpURLConnection.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            String line;
+            httpURLConnection.connect();
+            InputStream inputStream;
 
+            int status = httpURLConnection.getResponseCode();
+            if(status < 400) {
+                System.out.println(status );
+            } else{
+
+            }
+            //InputStream inputStream = httpURLConnection.getInputStream();
+
+            /*BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+            String line;
             while ((line = bufferedReader.readLine())!=null){
                 data= data+line;
             }
@@ -76,6 +88,10 @@ public class APITestActivity extends AppCompatActivity {
         } catch (MalformedURLException ex) {
             ex.printStackTrace();
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();*/
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
