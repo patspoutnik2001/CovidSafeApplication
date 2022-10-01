@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class ListeActivity extends AppCompatActivity {
 
     ImageButton openMaps;
+    Button loguot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,17 @@ public class ListeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_liste);
 
         openMaps = findViewById(R.id.openMaps);
+        loguot =  findViewById(R.id.logout_btn);
+
+        loguot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                finish();
+            }
+        });
+
         openMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

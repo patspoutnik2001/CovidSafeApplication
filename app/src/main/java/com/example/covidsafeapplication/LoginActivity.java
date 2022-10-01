@@ -34,11 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         pass_input = (TextView) findViewById(R.id.password_input);
         mAuth = FirebaseAuth.getInstance();
 
-        //TODO: verif bug
-        if (mAuth.getCurrentUser() != null){
-            //startActivity(new Intent(getApplicationContext(),MainActivity.class));
-            //finish();
-        }
+
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
                     Toast.makeText(getApplicationContext(), "User Created", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                    loginOK();
                 }else{
                     Toast.makeText(getApplicationContext(), task.getException().toString(), Toast.LENGTH_SHORT).show();
 
@@ -77,14 +73,23 @@ public class LoginActivity extends AppCompatActivity {
         String email = email_input.getText().toString().trim();
         String pass = pass_input.getText().toString().trim();
 
-        if (email.equals("abc@gmail.com")&&pass.equals("admin1234")){
-            Toast.makeText(getApplicationContext(), "Welcome!", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("login_status","true");
-            startActivity(intent);
-        }else{
-            Toast.makeText(getApplicationContext(), "Email or Password incorrect", Toast.LENGTH_SHORT).show();
+        mAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    Toast.makeText(getApplicationContext(), "Welcome", Toast.LENGTH_SHORT).show();
+                    loginOK();
+                }else{
+                    Toast.makeText(getApplicationContext(), task.getException().toString(), Toast.LENGTH_SHORT).show();
 
-        }
+                }
+            }
+        });
+
+    }
+
+    public void loginOK(){
+        Intent intent = new Intent(this, ListeActivity.class);
+        startActivity(intent);
     }
 }
