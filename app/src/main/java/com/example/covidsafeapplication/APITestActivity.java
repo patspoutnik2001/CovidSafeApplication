@@ -21,7 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class ActivityMainBinding extends AppCompatActivity {
+public class APITestActivity extends AppCompatActivity {
 
 
     ArrayList<String> tauxList;
@@ -31,8 +31,9 @@ public class ActivityMainBinding extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_apitest);
         tauxList = new ArrayList<>();
-        //display = (TextView) findViewById(R.id.display);
+        display = (TextView) findViewById(R.id.data_output);
         fetch_btn = (Button) findViewById(R.id.btn_fetch_data);
         if (fetch_btn!=null){
             fetch_btn.setOnClickListener(new View.OnClickListener() {
@@ -42,11 +43,9 @@ public class ActivityMainBinding extends AppCompatActivity {
                 }
             });
         }
-
     }
 
-
-    public void fetchData(){
+    private void fetchData() {
         String data = "";
 
 
@@ -83,7 +82,7 @@ public class ActivityMainBinding extends AppCompatActivity {
         }
 
 
-        Toast.makeText(getApplicationContext(), "All data fetched", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "All data fetched", Toast.LENGTH_SHORT).show();
         display.setText(tauxList.toString());
 
     }
