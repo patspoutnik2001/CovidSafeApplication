@@ -32,9 +32,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         loginBtn = (Button) findViewById(R.id.login);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         // if the button settings is clicked open settings
         settingsBtn = findViewById(R.id.settings);
         settingsBtn.setOnClickListener(new View.OnClickListener() {
@@ -65,11 +61,6 @@ public class MainActivity extends AppCompatActivity {
                 goToSettings();
             }
         });
-
-
-
-
-
     }
 
     private void goToSettings() {
