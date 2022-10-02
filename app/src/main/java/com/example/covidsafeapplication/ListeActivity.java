@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class ListeActivity extends AppCompatActivity {
 
     ImageButton openMaps;
-    Button loguot;
+    Button loguot,btnProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,16 @@ public class ListeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_liste);
 
         openMaps = findViewById(R.id.openMaps);
+        btnProfile = findViewById(R.id.btn_go_to_profile);
         loguot =  findViewById(R.id.logout_btn);
+
+        btnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ListeActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
 
         loguot.setOnClickListener(new View.OnClickListener() {
             @Override
