@@ -31,7 +31,7 @@ import java.util.ArrayList;
 public class APITestActivity extends AppCompatActivity {
 
 
-    ArrayList<String> tauxList;
+    ArrayList<JSONObject> tauxList;
     TextView display;
     Button fetch_btn;
     private RequestQueue mQueue;
@@ -58,7 +58,6 @@ public class APITestActivity extends AppCompatActivity {
     }
 
     private void fetchData() {
-        String data = "";
         String url =  "https://patryk.alwaysdata.net/CovidSafeRoom/api.php";
         //String url =  "https://patryk.alwaysdata.net/mesure.json";
 
@@ -68,7 +67,8 @@ public class APITestActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("");
+                            JSONArray jsonArray = response.getJSONArray("mesures");
+                            System.out.println(jsonArray.length());
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject mesure = jsonArray.getJSONObject(i);
                                 String id = mesure.getString("idMesure");
@@ -76,6 +76,7 @@ public class APITestActivity extends AppCompatActivity {
                                 String typeData = mesure.getString("typeData");
                                 String date = mesure.getString("date_");
                                 String idLocal = mesure.getString("idLocal");
+                                tauxList.add(mesure);
                                 display.append(id+", "+taux+", "+typeData+", "+date+", "+idLocal+"\n\n");
                             }
                         } catch (JSONException e) {
