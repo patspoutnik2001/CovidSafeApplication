@@ -11,28 +11,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ListeActivity extends AppCompatActivity {
 
     ImageButton openMaps;
-    Button loguot,btnProfile,btn_db;
+    Button loguot,btnProfile,btn_export;
     ArrayList<Batiment> batiments;
 
     @Override
@@ -43,10 +35,18 @@ public class ListeActivity extends AppCompatActivity {
         openMaps = findViewById(R.id.openMaps);
         btnProfile = findViewById(R.id.btn_go_to_profile);
         loguot =  findViewById(R.id.logout_btn);
-        btn_db = findViewById(R.id.btn_test_db);
+        btn_export = findViewById(R.id.btn_export);
         batiments = new ArrayList<>();
         getBatiments();
         //TODO: quand on click sur un batiment-> envois le id du batiment a la nouvelle activite
+
+        btn_export.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ListeActivity.this, ExportActivity.class);
+                startActivity(intent);
+            }
+        });
 
         btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override

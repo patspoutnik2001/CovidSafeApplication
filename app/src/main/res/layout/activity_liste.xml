@@ -63,14 +63,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_test_db"
+        android:id="@+id/btn_export"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="173dp"
-        android:layout_marginTop="88dp"
-        android:layout_marginEnd="144dp"
-        android:text="test DB"
+        android:layout_marginStart="284dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="31dp"
+        android:text="export"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_go_to_profile" />
+        app:layout_constraintTop_toBottomOf="@+id/openMaps" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void goToLogin() {
         // TODO remettre les lignes en commentaire que le login fonctionne
-        Intent intent = new Intent(this, LocalActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
 
 
