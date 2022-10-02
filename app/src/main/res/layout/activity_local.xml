@@ -6,4 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".LocalActivity">
 
+    <ImageButton
+        android:id="@+id/exportPDF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="72dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/stat_sys_download" />
 </androidx.constraintlayout.widget.ConstraintLayout>
