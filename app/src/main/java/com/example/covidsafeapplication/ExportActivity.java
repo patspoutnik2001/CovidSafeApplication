@@ -1,34 +1,36 @@
 package com.example.covidsafeapplication;
 
 
-import android.annotation.SuppressLint;
+
+import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.graphics.fonts.Font;
 import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.lang.reflect.Type;
+
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-import org.w3c.dom.Document;
 
 public class ExportActivity extends AppCompatActivity {
 
@@ -77,62 +79,48 @@ public class ExportActivity extends AppCompatActivity {
 
     private void generatePDF() {
 
+        // get the permission to write to external storage
+        if (ContextCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
-        // create a PDF file with A in it
-        PdfDocument document = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(100, 100, 1).create();
-        PdfDocument.Page page = document.startPage(pageInfo);
-        Canvas canvas = page.getCanvas();
-        Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
-        canvas.drawText("A", 50, 50, paint);
-        document.finishPage(page);
-        // write the document content
+            // create a new document
+            PdfDocument document = new PdfDocument();
 
+            PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(pagewidth, pageHeight, 1).create();
+            PdfDocument.Page page = document.startPage(pageInfo);
 
-        File file = new File(Environment.getExternalStorageDirectory(), "GFG.pdf");
+            Canvas canvas = page.getCanvas();
+            Paint  paintText = new Paint();
+            paintText.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+            paintText.setTextSize(20);
+            paintText.setColor(ContextCompat.getColor(this, R.color.black));
+            paintText.setTextAlign(Paint.Align.CENTER);
+            canvas.drawText("COVIDSAFE", 350, 50, paintText);
 
-        try {
-            // after creating a file name we will
-            // write our PDF file to that location.
-            document.writeTo(new FileOutputStream(file));
+            paintText.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+            paintText.setColor(ContextCompat.getColor(this, R.color.black));
+            paintText.setTextSize(15);
+            paintText.setTextAlign(Paint.Align.LEFT);
 
-            // below line is to print toast message
-            // on completion of PDF generation.
-            Toast.makeText(ExportActivity.this, "PDF file generated successfully.", Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
-            // below line is used
-            // to handle error
-            e.printStackTrace();
+            canvas.drawText("test" , 50, 100, paintText);
+            document.finishPage(page);
+            createFile();
+
+            // close the document
+            document.close();
+        } else {
+            // request permission
+            ActivityCompat.requestPermissions(this, new String[]{WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
         }
-        // after storing our pdf to that
-        // location we are closing our PDF file.
-        document.close();
 
-//        String targetPdf = "a.pdf";
-//        File filePath = new File(targetPdf);
+    }
 
+    private void createFile() {
 
-
-
-
-//        try {
-//            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES);
-//            File file = new File(path, "/" + "test.pdf");
-//            document.writeTo(new FileOutputStream(path));
-//            Toast.makeText(this, "Done", Toast.LENGTH_LONG).show();
-//
-//        } catch (IOException e) {
-//            Log.e("main", "error " + e.toString());
-//            Toast.makeText(this, "Something wrong: " + e.toString(),  Toast.LENGTH_LONG).show();
-//        }
-//        // close the document
-//        document.close();
-
-
-
-
-
+            Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("application/pdf");
+            intent.putExtra(Intent.EXTRA_TITLE, "test.pdf");
+            startActivityForResult(intent, 42);
 
     }
 
@@ -148,25 +136,12 @@ public class ExportActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0) {
 
-                // after requesting permissions we are showing
-                // users a toast message of permission granted.
-                boolean writeStorage = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                boolean readStorage = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+    private String getFilePath(){
+        ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
+        File directory = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+        File file = new File(directory, "MonPutinDePDF.pdf");
 
-                if (writeStorage && readStorage) {
-                    Toast.makeText(this, "Permission Granted..", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Permission Denied.", Toast.LENGTH_SHORT).show();
-                    //finish();
-                }
-            }
-        }
+        return file.getPath();
     }
 }
