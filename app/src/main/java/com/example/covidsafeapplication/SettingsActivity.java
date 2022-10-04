@@ -7,33 +7,62 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.ToggleButton;
 
 public class SettingsActivity extends AppCompatActivity {
 
 
     private Button btnToggleDark;
+    private Spinner spinner;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        System.out.println("test");
+        //System.out.println("test");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         btnToggleDark = (Button)findViewById(R.id.toggleButton);
+
+        spinner = (Spinner) findViewById(R.id.spinner_lang);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.lang_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+
+
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String lang = spinner.getSelectedItem().toString();
+                System.out.println(lang);
+                
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         boolean isDarkModeOn = sharedPreferences.getBoolean("isDarkModeOn", false);
 
         if (isDarkModeOn) {AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            btnToggleDark.setText("Disable Dark Mode");
+            //btnToggleDark.setText(R.string.btn_off_dark_mode);
         }
         else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            btnToggleDark.setText("Enable Dark Mode");
+            //btnToggleDark.setText(R.string.btn_dark_mode);
         }
 
         btnToggleDark.setOnClickListener(
@@ -55,7 +84,7 @@ public class SettingsActivity extends AppCompatActivity {
                             editor.apply();
 
                             // change text of Button
-                            btnToggleDark.setText("Enable Dark Mode");
+                            //btnToggleDark.setText(R.string.btn_dark_mode);
                         }
                         else {
 
@@ -69,7 +98,7 @@ public class SettingsActivity extends AppCompatActivity {
                             editor.apply();
 
                             // change text of Button
-                            btnToggleDark.setText("Disable Dark Mode");
+                            //btnToggleDark.setText(R.string.btn_off_dark_mode);
                         }
                     }
                 });

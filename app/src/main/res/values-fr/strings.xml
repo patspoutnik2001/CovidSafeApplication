@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CovidSafeApplication</string>
+    <string name="title_activity_login">Se Connecter</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Mot de passe</string>
+    <string name="btn_login">Sign in</string>
+    <string name="welcome">"Bienvenue"</string>
+    <string name="invalid_username">Nom de utilisateur invalide</string>
+    <string name="invalid_password">Mot de passe doit avoir > 5 caracetres</string>
+    <string name="login_failed">Connexion echoue</string>
+    <string name="title_activity_maps">Carte</string>
+    <string name="btn_take_photo">Prendre une photo</string>
+    <string name="btn_get_data">Prendre les donnees</string>
+    <string name="btn_generate_pdf">Generer un PDF</string>
+    <string name="btn_logout">Logout</string>
+    <string name="btn_export">Exporter</string>
+    <string name="btn_make_account">Creation de compte</string>
+    <string name="tv_email_hint">Email ici</string>
+    <string name="tv_password_hint">Password ici</string>
+    <string name="btn_scan">Scanner</string>
+    <string name="btn_dark_mode">Activer mode sombre</string>
+    <string name="btn_off_dark_mode"> Desactiver mode sombre</string>
+
+</resources>
