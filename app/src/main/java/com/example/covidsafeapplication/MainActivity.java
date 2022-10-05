@@ -2,6 +2,7 @@ package com.example.covidsafeapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,10 +12,11 @@ import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button apiBtn,loginBtn,photoBtn;
+    Button apiBtn,loginBtn,photoBtn, addBtimentBtn;
     String login_status=null;
     ImageButton settingsBtn;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +63,20 @@ public class MainActivity extends AppCompatActivity {
                 goToSettings();
             }
         });
+
+        // if the button settings is clicked open settings
+        addBtimentBtn = findViewById(R.id.btnAjoutBatiment);
+        addBtimentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToAddBatiment();
+            }
+        });
+    }
+
+    private void goToAddBatiment() {
+        Intent intent = new Intent(this, AddBatiment.class);
+        startActivity(intent);
     }
 
     private void goToSettings() {
@@ -75,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void goToLogin() {
         // TODO remettre les lignes en commentaire que le login fonctionne
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, ExportActivity.class);
         startActivity(intent);
 
 
