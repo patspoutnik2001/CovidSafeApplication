@@ -9,8 +9,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,6 +27,7 @@ public class ListeActivity extends AppCompatActivity {
 
     ImageButton openMaps;
     Button loguot,btnProfile,btn_export;
+    ListView batiments_listV;
     ArrayList<Batiment> batiments;
 
     @Override
@@ -36,9 +39,40 @@ public class ListeActivity extends AppCompatActivity {
         btnProfile = findViewById(R.id.btn_go_to_profile);
         loguot =  findViewById(R.id.logout_btn);
         btn_export = findViewById(R.id.btn_export);
+        batiments_listV = findViewById(R.id.batiments_view);
         batiments = new ArrayList<>();
-        getBatiments();
-        //TODO: quand on click sur un batiment-> envois le id du batiment a la nouvelle activite
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("batiment")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                int i=Integer.parseInt( document.get("idBatiment").toString());
+                                batiments.add(new Batiment(i,document.getString("nomBatiment")));
+                                System.out.println(batiments.size());
+                            }
+                            CustomBaseAdapter adapter= new CustomBaseAdapter(getApplicationContext(),batiments);
+                            batiments_listV.setAdapter(adapter);
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+        //ArrayList<Batiment> batiments =getBatiments();
+
+        System.out.println(batiments.size()+" size");
+
+
+        batiments_listV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.w("batiments list view","item id: "+l );
+            }
+        });
+
 
         btn_export.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,9 +107,10 @@ public class ListeActivity extends AppCompatActivity {
         });
     }
 
-    private void getBatiments() {
+    public ArrayList<Batiment> getBatiments() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         // Create a new user with a first and last name
+        ArrayList<Batiment> result= new ArrayList<>();
         db.collection("batiment")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -84,13 +119,15 @@ public class ListeActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 int i=Integer.parseInt( document.get("idBatiment").toString());
-                                batiments.add(new Batiment(i,document.getString("nomBatiment")));
-                                System.out.println(batiments.size());
+                                result.add(new Batiment(i,document.getString("nomBatiment")));
+                                System.out.println(result.size());
                             }
+
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
                         }
                     }
                 });
+        return result;
     }
 }
