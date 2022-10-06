@@ -1,19 +1,27 @@
 package com.example.covidsafeapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class MainActivity extends AppCompatActivity {
 
     Button apiBtn,loginBtn,photoBtn, addBtimentBtn;
-    String login_status=null;
     ImageButton settingsBtn;
 
     @SuppressLint("MissingInflatedId")
@@ -21,9 +29,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Bundle extras = getIntent().getExtras();//pour prendre des variables qu'on passe entre les activites
-        if (extras!=null){
-            login_status = extras.getString("login_status");
+        SharedPreferences settings =getApplicationContext().getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        Boolean logged = settings.getBoolean("logged",false);
+        String email = settings.getString("email","");
+        String pass = settings.getString("pass","");
+        if (logged){
+            Intent intent = new Intent(this, ListeActivity.class);
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            mAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    Toast.makeText(getApplicationContext(), "Welcome "+email, Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
+                }
+            });
         }
 
         apiBtn = (Button) findViewById(R.id.btnGoToApi);
@@ -41,9 +60,6 @@ public class MainActivity extends AppCompatActivity {
                 goToLogin();
             }
         });
-        if (login_status!=null && login_status.equals("true")){
-            loginBtn.setVisibility(View.GONE);//on cache le button car on est connected
-        }
 
         // if the button photo is taken open back camera
         photoBtn = (Button) findViewById(R.id.qrCodePhoto);

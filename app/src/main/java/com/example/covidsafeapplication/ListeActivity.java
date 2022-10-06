@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -97,6 +98,9 @@ public class ListeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
+                SharedPreferences settings = getApplicationContext().getSharedPreferences("MySharedPref", MODE_PRIVATE);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.clear().commit();
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
                 finish();
             }
