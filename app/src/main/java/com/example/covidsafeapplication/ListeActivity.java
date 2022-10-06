@@ -69,7 +69,11 @@ public class ListeActivity extends AppCompatActivity {
         batiments_listV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.w("batiments list view","item id: "+l );
+                //Log.w("batiments list view","item id: "+l );
+                Intent intent = new Intent(ListeActivity.this, LocalListActivity.class);
+                intent.putExtra("batid", batiments.get(i).idBatiment);
+                intent.putExtra("batName", batiments.get(i).nomBatiment);
+                startActivity(intent);
             }
         });
 
