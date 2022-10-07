@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,11 +16,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.IOException;
+
 public class AddBatiment extends AppCompatActivity {
 
     Button btn_addBatiment;
     TextView nomBatiment_input,adresse_input;
     private FirebaseAuth mAuth;
+    Geocoder geocoder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +34,31 @@ public class AddBatiment extends AppCompatActivity {
         nomBatiment_input = (TextView) findViewById(R.id.nomBatiment_input);
         adresse_input = (TextView) findViewById(R.id.adresse_input);
 
+
+
         btn_addBatiment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addBatiment();
+                //addBatiment();
+                // TODO: remettre add batiment
+
+                testLocalisation();
             }
         });
     }
 
+    private void testLocalisation() {
+        geocoder = new Geocoder(this);
 
+        try {
+            geocoder.getFromLocationName(adresse_input.getText().toString(), 1);
+            System.out.println(geocoder.getFromLocationName(adresse_input.getText().toString(), 1));
+        } catch (IOException e) {
+            System.out.println("l'adresse n'existe pas !!!!!!!!!!!!");
+
+        }
+
+    }
 
 
     private void addBatiment() {
