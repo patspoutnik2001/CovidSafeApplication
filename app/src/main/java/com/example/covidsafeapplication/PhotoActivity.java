@@ -4,10 +4,13 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
+
+import org.json.JSONObject;
 
 public class PhotoActivity extends AppCompatActivity
 {
@@ -36,11 +39,10 @@ public class PhotoActivity extends AppCompatActivity
     {
         if(result.getContents() !=null)
         {
-            // TODO : mener a la page de resultats scannés
             AlertDialog.Builder builder = new AlertDialog.Builder(PhotoActivity.this);
             builder.setTitle("Result");
             builder.setMessage(result.getContents());
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
+            builder.setPositiveButton("Go there", new DialogInterface.OnClickListener()
             {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i)
@@ -48,6 +50,14 @@ public class PhotoActivity extends AppCompatActivity
                     dialogInterface.dismiss();
                 }
             }).show();
+
+            String id_string = result.getContents();
+            int id = Integer.parseInt(id_string);
+            System.out.println("id from scan: "+id);
+
+            Intent intent = new Intent(this, LocalActivity.class);
+            intent.putExtra("idLocal",id);
+            startActivity(intent);
         }
     });
 

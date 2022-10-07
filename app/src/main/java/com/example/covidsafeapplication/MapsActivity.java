@@ -51,5 +51,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         LatLng bxl = new LatLng(50.8333, 4.35);
         mMap.addMarker(new MarkerOptions().position(bxl).title("Marker in Brussels"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(bxl));
+
+        //TODO: add markers for each batiments
     }
 }

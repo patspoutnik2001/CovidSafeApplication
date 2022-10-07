@@ -1,10 +1,14 @@
 package com.example.covidsafeapplication;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -17,6 +21,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,10 +58,34 @@ public class LocalActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras!=null){
-            int id = extras.getInt("localId");
-            int idBatiment = extras.getInt("idBat");
-            String name = extras.getString("localName");
-            current_local= new Local(idBatiment,id,name);
+            int id = extras.getInt("idLocal");
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("local")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    int bat=Integer.parseInt( document.get("idBatiment").toString());
+                                    int idLocal=Integer.parseInt( document.get("idLocal").toString());
+                                    String name_local = document.getString("nom");
+
+                                    if (idLocal==id) {
+                                        current_local = new Local(bat, idLocal, name_local);
+                                        display_name.setText(current_local.name);
+                                        initMesures();
+                                    }
+                                }
+                                if (current_local==null){
+                                    goToListBat();
+                                }
+                            } else {
+                                Log.w(TAG, "Error getting documents.", task.getException());
+                            }
+                        }
+                    });
         }
 
         exportPDF = findViewById(R.id.exportPDF);
@@ -60,8 +93,7 @@ public class LocalActivity extends AppCompatActivity {
         display_mesures=findViewById(R.id.display_all_mesures);
         display_mesures.setMovementMethod(new ScrollingMovementMethod());
         if (current_local!=null) {
-            display_name.setText(current_local.name);
-            initMesures();
+
         }
 
 
@@ -117,6 +149,10 @@ public class LocalActivity extends AppCompatActivity {
 
 
 
+    }
+    private void goToListBat() {
+        Intent intent = new Intent(this, ListeActivity.class);
+        startActivity(intent);
     }
 
     private void goToExport() {
