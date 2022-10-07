@@ -5,8 +5,11 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -66,9 +69,17 @@ public class LocalListActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-
-
         display_tv.setText(batiment.nomBatiment);
+
+        local_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(LocalListActivity.this, LocalActivity.class);
+                intent.putExtra("localId", locals.get(i).id);
+                intent.putExtra("localName", locals.get(i).name);
+                intent.putExtra("idBat", locals.get(i).idBat);
+                startActivity(intent);
+            }
+        });
     }
 }

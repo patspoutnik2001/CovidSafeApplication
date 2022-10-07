@@ -9,35 +9,114 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class LocalActivity extends AppCompatActivity {
 
     ImageButton exportPDF;
     TextView display_name,display_mesures;
-    ArrayList<Mesure> mesures;
+    ArrayList<JSONObject> mesures_list;
+    Local current_local;
+    private RequestQueue mQueue;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_local);
-        mesures = new ArrayList<>();
+        mesures_list = new ArrayList<>();
+        mQueue = Volley.newRequestQueue(this);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras!=null){
+            int id = extras.getInt("localId");
+            int idBatiment = extras.getInt("idBat");
+            String name = extras.getString("localName");
+            current_local= new Local(idBatiment,id,name);
+        }
 
         exportPDF = findViewById(R.id.exportPDF);
         display_name= findViewById(R.id.tv_display_local_name);
         display_mesures=findViewById(R.id.display_all_mesures);
         display_mesures.setMovementMethod(new ScrollingMovementMethod());
-
+        if (current_local!=null) {
+            display_name.setText(current_local.name);
+            initMesures();
+        }
 
 
         exportPDF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 goToExport();
-
             }
         });
+    }
+
+    private void initMesures() {
+        String data = "";
+        String url =  "https://patryk.alwaysdata.net/CovidSafeRoom/api.php";
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("mesures");
+                            System.out.println(jsonArray.length());
+                            mesures_list.clear();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject mes = jsonArray.getJSONObject(i);
+                                String date = mes.getString("date_");
+                                String idMesure = mes.getString("idMesure");
+                                //int id=Integer.getInteger(idMesure);
+                                String taux = mes.getString("taux");
+                                //int t= Integer.getInteger(taux);
+                                String type = mes.getString("typeData");
+                                //int typeData= Integer.getInteger(type);
+                                String idL=mes.getString("idLocal");
+                                //int iL = Integer.getInteger(idL);
+                                if (idL.equals(current_local.id+"")){
+                                    mesures_list.add(mes);
+                                    display_mesures.append(idMesure+", "+taux+", "+type+", "+date+", "+idL+"\n\n");
+                                }
+                            }
+                            Toast.makeText(getApplicationContext(), "All data fetched", Toast.LENGTH_SHORT).show();
+                            //display_mesures.setText(mesures_list.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+
+        mQueue.add(request);
+
+
+
     }
 
     private void goToExport() {

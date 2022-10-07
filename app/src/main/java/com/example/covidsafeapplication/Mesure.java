@@ -10,5 +10,18 @@ public class Mesure {
         taux=_t;
         typeData=_td;
         date=_d;
+        idLocal=_l;
+    }
+
+
+    public String getType(){
+        if (typeData==1)
+            return "Temperature";
+        if (typeData==2)
+            return "Humidity";
+        if (typeData==3)
+            return "CO2";
+
+        return "null";
     }
 }

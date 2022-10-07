@@ -48,8 +48,6 @@ public class ActivityMainBinding extends AppCompatActivity {
 
     public void fetchData(){
         String data = "";
-
-
         try {
             URL url = new URL( "https://patryk.alwaysdata.net/CovidSafeRoom/api.php");
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();

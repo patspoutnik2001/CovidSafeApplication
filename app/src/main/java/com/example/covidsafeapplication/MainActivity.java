@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button apiBtn,loginBtn,photoBtn, addBtimentBtn;
+    Button loginBtn,photoBtn, addBtimentBtn;
     ImageButton settingsBtn;
 
     @SuppressLint("MissingInflatedId")
@@ -45,13 +45,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        apiBtn = (Button) findViewById(R.id.btnGoToApi);
-        apiBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToApi();
-            }
-        });
+
 
         loginBtn = (Button) findViewById(R.id.login);
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -106,17 +100,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToLogin() {
-        // TODO remettre les lignes en commentaire que le login fonctionne
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
 
 
     }
 
-    void goToApi(){
-        Intent apiIntent = new Intent(this, APITestActivity.class);
-        startActivity(apiIntent);
-    }
 
 
 
