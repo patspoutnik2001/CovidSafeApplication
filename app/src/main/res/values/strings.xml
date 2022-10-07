@@ -9,7 +9,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_maps">Maps</string>
-    <string name="btn_take_photo">Take Photo</string>
+    <string name="btn_take_photo">Scan code</string>
     <string name="btn_get_data">get data</string>
     <string name="btn_generate_pdf">Generate PDF</string>
     <string name="btn_logout">Logout</string>

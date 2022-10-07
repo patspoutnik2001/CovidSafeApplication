@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class ListeActivity extends AppCompatActivity {
 
     ImageButton openMaps;
-    Button loguot,btnProfile,btn_export;
+    Button loguot,btnProfile,btn_export,btn_add_bati;
     ListView batiments_listV;
     ArrayList<Batiment> batiments;
 
@@ -37,6 +37,7 @@ public class ListeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_liste);
 
         openMaps = findViewById(R.id.openMaps);
+        btn_add_bati=findViewById(R.id.btn_add_bati);
         btnProfile = findViewById(R.id.btn_go_to_profile);
         loguot =  findViewById(R.id.logout_btn);
         btn_export = findViewById(R.id.btn_export);
@@ -62,9 +63,17 @@ public class ListeActivity extends AppCompatActivity {
                         }
                     }
                 });
-        //ArrayList<Batiment> batiments =getBatiments();
 
         System.out.println(batiments.size()+" size");
+
+
+
+        btn_add_bati.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToAddBatiment();
+            }
+        });
 
 
         batiments_listV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -115,27 +124,9 @@ public class ListeActivity extends AppCompatActivity {
         });
     }
 
-    public ArrayList<Batiment> getBatiments() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        // Create a new user with a first and last name
-        ArrayList<Batiment> result= new ArrayList<>();
-        db.collection("batiment")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                int i=Integer.parseInt( document.get("idBatiment").toString());
-                                result.add(new Batiment(i,document.getString("nomBatiment")));
-                                System.out.println(result.size());
-                            }
-
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
-                    }
-                });
-        return result;
+    private void goToAddBatiment() {
+        Intent intent = new Intent(this, AddBatiment.class);
+        startActivity(intent);
     }
+
 }

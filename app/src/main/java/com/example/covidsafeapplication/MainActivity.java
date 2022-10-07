@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button loginBtn,photoBtn, addBtimentBtn;
+    Button loginBtn,photoBtn;
     ImageButton settingsBtn;
 
     @SuppressLint("MissingInflatedId")
@@ -74,20 +74,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // if the button settings is clicked open settings
-        addBtimentBtn = findViewById(R.id.btnAjoutBatiment);
-        addBtimentBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                goToAddBatiment();
-            }
-        });
     }
 
-    private void goToAddBatiment() {
-        Intent intent = new Intent(this, AddBatiment.class);
-        startActivity(intent);
-    }
+
 
     private void goToSettings() {
         Intent intent = new Intent(this, SettingsActivity.class);

@@ -10,7 +10,7 @@
     <string name="invalid_password">Mot de passe doit avoir > 5 caracetres</string>
     <string name="login_failed">Connexion echoue</string>
     <string name="title_activity_maps">Carte</string>
-    <string name="btn_take_photo">Prendre une photo</string>
+    <string name="btn_take_photo">Scanner un code</string>
     <string name="btn_get_data">Prendre les donnees</string>
     <string name="btn_generate_pdf">Generer un PDF</string>
     <string name="btn_logout">Logout</string>
