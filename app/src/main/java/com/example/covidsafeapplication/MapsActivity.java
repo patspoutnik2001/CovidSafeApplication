@@ -25,6 +25,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
+    private GpsTracker gpsTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +50,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         } catch (Exception e){
             e.printStackTrace();
         }
-
-        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-
-        LatLng bxl = new LatLng(50.8333, 4.35);
-        mMap.addMarker(new MarkerOptions().position(bxl).title("Marker in Brussels"));
+        gpsTracker = new GpsTracker(MapsActivity.this);
+        LatLng bxl;
+        if(gpsTracker.canGetLocation()){
+            double latitude = gpsTracker.getLatitude();
+            double longitude = gpsTracker.getLongitude();
+            bxl = new LatLng(latitude, longitude);
+            System.out.println("ok gps");
+        }else{
+            gpsTracker.showSettingsAlert();
+            bxl = new LatLng(50.8333, 4.35);
+            System.out.println("PAS OK gps");
+        }
+        mMap.addMarker(new MarkerOptions().position(bxl).title("My location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(bxl));
 
         //TODO: add markers for each batiments
