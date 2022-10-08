@@ -39,6 +39,7 @@ public class PhotoActivity extends AppCompatActivity
     {
         if(result.getContents() !=null)
         {
+            /*
             AlertDialog.Builder builder = new AlertDialog.Builder(PhotoActivity.this);
             builder.setTitle("Result");
             builder.setMessage(result.getContents());
@@ -50,7 +51,7 @@ public class PhotoActivity extends AppCompatActivity
                     dialogInterface.dismiss();
                 }
             }).show();
-
+            */
             String id_string = result.getContents();
             int id = Integer.parseInt(id_string);
             System.out.println("id from scan: "+id);
