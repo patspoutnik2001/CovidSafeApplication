@@ -37,10 +37,12 @@ import java.util.HashMap;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-    private GoogleMap mMap;
+  //  private GoogleMap mMap;
     private ActivityMapsBinding binding;
     private ArrayList<Batiment> batimentArrayList = new ArrayList<>();
-    private ArrayList<Marker> markers = new ArrayList<>();
+   // public ArrayList<Marker> markers = new ArrayList<>();
+    // hashmap of makers and their GoogleMap
+    public HashMap<Marker, GoogleMap> markerMap = new HashMap<>();
 
 
     @Override
@@ -56,15 +58,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
     }
 
-    @Override
-    public boolean onMarkerClick(@NonNull Marker marker) {
 
-        System.out.println(marker.getId()+ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-
-
-
-        return false;
-    }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -103,29 +97,38 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void addMarker(GoogleMap googleMap, LatLng latlng, Batiment batiment) {
         Marker marker = googleMap.addMarker(new MarkerOptions().position(latlng).title(batiment.nomBatiment));
-        markers.add(marker);
-        mMap = googleMap;
+        markerMap.put(marker, googleMap);
 
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                // on marker click we are getting the title of our marker
-                // which is clicked and displaying it in a toast message.
-
-
-                String markerName = marker.getTitle();
-                Toast.makeText(MapsActivity.this, "Clicked location is " + markerName, Toast.LENGTH_SHORT).show();
-
-                // intent
-                Intent intent = new Intent(MapsActivity.this, LocalListActivity.class);
-                intent.putExtra("batid", batiment.idBatiment);
-                intent.putExtra("batName", batiment.nomBatiment);
-                startActivity(intent);
+        for (GoogleMap gglmap: markerMap.values()) {
+            gglmap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    // on marker click we are getting the title of our marker
+                    // which is clicked and displaying it in a toast message.
 
 
-                return false;
-            }
-        });
+                    String markerName = marker.getTitle();
+                    Toast.makeText(MapsActivity.this, "Clicked location is " + markerName, Toast.LENGTH_SHORT).show();
+
+                    // intent
+                    Intent intent = new Intent(MapsActivity.this, LocalListActivity.class);
+                    intent.putExtra("batid", batiment.idBatiment);
+                    intent.putExtra("batName", batiment.nomBatiment);
+                    startActivity(intent);
+
+
+                    return false;
+                }
+            });
+        }
+
+        }
+
+
+
+    @Override
+    public boolean onMarkerClick(@NonNull Marker marker) {
+        return false;
     }
 }
 
