@@ -115,6 +115,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // intent
                 Intent intent = new Intent(MapsActivity.this, ListeActivity.class);
                 intent.putExtra("idBatiment", batiment.idBatiment);
+                startActivity(intent);
 
 
 
