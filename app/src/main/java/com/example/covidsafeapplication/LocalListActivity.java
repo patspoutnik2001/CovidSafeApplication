@@ -42,8 +42,13 @@ public class LocalListActivity extends AppCompatActivity {
             int id = extras.getInt("batid");
             String name = extras.getString("batName");
             batiment= new Batiment(id,name);
-            System.out.println(batiment.idBatiment+":"+batiment.nomBatiment);
         }
+
+
+
+
+
+
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("local")

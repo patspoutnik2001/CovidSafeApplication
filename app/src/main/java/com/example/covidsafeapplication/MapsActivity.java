@@ -113,10 +113,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Toast.makeText(MapsActivity.this, "Clicked location is " + markerName, Toast.LENGTH_SHORT).show();
 
                 // intent
-                Intent intent = new Intent(MapsActivity.this, ListeActivity.class);
-                intent.putExtra("idBatiment", batiment.idBatiment);
+                Intent intent = new Intent(MapsActivity.this, LocalListActivity.class);
+                intent.putExtra("batid", batiment.idBatiment);
+                intent.putExtra("batName", batiment.nomBatiment);
                 startActivity(intent);
-
 
 
                 return false;
