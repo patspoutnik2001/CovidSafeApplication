@@ -17,7 +17,6 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     private Button btnToggleDark;
-    private Spinner spinner;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -28,30 +27,6 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         btnToggleDark = (Button)findViewById(R.id.toggleButton);
 
-        spinner = (Spinner) findViewById(R.id.spinner_lang);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.lang_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
-
-
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String lang = spinner.getSelectedItem().toString();
-                System.out.println(lang);
-                
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
 
         SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
