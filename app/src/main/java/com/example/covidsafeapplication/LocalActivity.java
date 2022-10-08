@@ -43,7 +43,7 @@ import java.util.ArrayList;
 public class LocalActivity extends AppCompatActivity {
 
     ImageButton exportPDF;
-    TextView display_name,display_mesures;
+    TextView display_name, display_mesures;
     ArrayList<JSONObject> mesures_list;
     Local current_local;
     private RequestQueue mQueue;
@@ -57,7 +57,7 @@ public class LocalActivity extends AppCompatActivity {
         mQueue = Volley.newRequestQueue(this);
 
         Bundle extras = getIntent().getExtras();
-        if (extras!=null){
+        if (extras != null) {
             int id = extras.getInt("idLocal");
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -68,17 +68,17 @@ public class LocalActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    int bat=Integer.parseInt( document.get("idBatiment").toString());
-                                    int idLocal=Integer.parseInt( document.get("idLocal").toString());
+                                    int bat = Integer.parseInt(document.get("idBatiment").toString());
+                                    int idLocal = Integer.parseInt(document.get("idLocal").toString());
                                     String name_local = document.getString("nom");
 
-                                    if (idLocal==id) {
+                                    if (idLocal == id) {
                                         current_local = new Local(bat, idLocal, name_local);
                                         display_name.setText(current_local.name);
                                         initMesures();
                                     }
                                 }
-                                if (current_local==null){
+                                if (current_local == null) {
                                     goToListBat();
                                 }
                             } else {
@@ -89,10 +89,10 @@ public class LocalActivity extends AppCompatActivity {
         }
 
         exportPDF = findViewById(R.id.exportPDF);
-        display_name= findViewById(R.id.tv_display_local_name);
-        display_mesures=findViewById(R.id.display_all_mesures);
+        display_name = findViewById(R.id.tv_display_local_name);
+        display_mesures = findViewById(R.id.display_all_mesures);
         display_mesures.setMovementMethod(new ScrollingMovementMethod());
-        if (current_local!=null) {
+        if (current_local != null) {
 
         }
 
@@ -107,7 +107,7 @@ public class LocalActivity extends AppCompatActivity {
 
     private void initMesures() {
         String data = "";
-        String url =  "https://patryk.alwaysdata.net/CovidSafeRoom/api.php";
+        String url = "https://patryk.alwaysdata.net/CovidSafeRoom/api.php";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -125,11 +125,11 @@ public class LocalActivity extends AppCompatActivity {
                                 //int t= Integer.getInteger(taux);
                                 String type = mes.getString("typeData");
                                 //int typeData= Integer.getInteger(type);
-                                String idL=mes.getString("idLocal");
+                                String idL = mes.getString("idLocal");
                                 //int iL = Integer.getInteger(idL);
-                                if (idL.equals(current_local.id+"")){
+                                if (idL.equals(current_local.id + "")) {
                                     mesures_list.add(mes);
-                                    display_mesures.append(idMesure+", "+taux+", "+type+", "+date+", "+idL+"\n\n");
+                                    display_mesures.append(idMesure + ", " + taux + ", " + type + ", " + date + ", " + idL + "\n\n");
                                 }
                             }
                             Toast.makeText(getApplicationContext(), "All data fetched", Toast.LENGTH_SHORT).show();
@@ -148,8 +148,8 @@ public class LocalActivity extends AppCompatActivity {
         mQueue.add(request);
 
 
-
     }
+
     private void goToListBat() {
         Intent intent = new Intent(this, ListeActivity.class);
         startActivity(intent);
