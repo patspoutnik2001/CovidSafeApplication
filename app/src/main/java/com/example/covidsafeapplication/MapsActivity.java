@@ -61,6 +61,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         System.out.println(marker.getId()+ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
+
+
         return false;
     }
 
@@ -109,6 +111,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public boolean onMarkerClick(Marker marker) {
                 // on marker click we are getting the title of our marker
                 // which is clicked and displaying it in a toast message.
+
+
                 String markerName = marker.getTitle();
                 Toast.makeText(MapsActivity.this, "Clicked location is " + markerName, Toast.LENGTH_SHORT).show();
 

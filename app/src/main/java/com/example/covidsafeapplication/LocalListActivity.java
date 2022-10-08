@@ -80,9 +80,7 @@ public class LocalListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(LocalListActivity.this, LocalActivity.class);
-                intent.putExtra("localId", locals.get(i).id);
-                intent.putExtra("localName", locals.get(i).name);
-                intent.putExtra("idBat", locals.get(i).idBat);
+                intent.putExtra("idLocal", locals.get(i).id);
                 startActivity(intent);
             }
         });
