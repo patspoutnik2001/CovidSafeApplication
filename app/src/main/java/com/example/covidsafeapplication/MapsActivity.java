@@ -37,12 +37,12 @@ import java.util.HashMap;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-  //  private GoogleMap mMap;
+    //  private GoogleMap mMap;
     private ActivityMapsBinding binding;
     private ArrayList<Batiment> batimentArrayList = new ArrayList<>();
-   // public ArrayList<Marker> markers = new ArrayList<>();
+    // public ArrayList<Marker> markers = new ArrayList<>();
     // hashmap of makers and their GoogleMap
-    public HashMap<Marker, GoogleMap> markerMap = new HashMap<>();
+    public HashMap<Marker, Batiment> markerMap = new HashMap<>();
 
 
     @Override
@@ -57,7 +57,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.maps);
         mapFragment.getMapAsync(this);
     }
-
 
 
     @Override
@@ -83,7 +82,36 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     // add marker on the map
                                     LatLng latLng = new LatLng(lat, lng);
                                     // print long and lat on the map
-                                    addMarker(googleMap, latLng, batiment);
+
+                                    Marker marker = googleMap.addMarker(new MarkerOptions().position(latLng).title(batiment.nomBatiment));
+                                    markerMap.put(marker, batiment);
+
+                                    // if market is clicked, go to the next activity
+
+
+                                    googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                        @Override
+                                        public boolean onMarkerClick(Marker marker) {
+                                            // intent
+                                            Intent intent = new Intent(MapsActivity.this, LocalListActivity.class);
+
+                                            // if maker  is equal to the marker in the hashmap
+                                            if (markerMap.containsKey(marker)) {
+                                                // get the batiment object
+                                                Batiment batiment = markerMap.get(marker);
+
+                                                System.out.println("batiment id: " + batiment.idBatiment+ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                                                System.out.println("batiment name: " + batiment.nomBatiment);
+
+
+                                                intent.putExtra("batid", batiment.idBatiment);
+                                                intent.putExtra("batName", batiment.nomBatiment);
+                                                startActivity(intent);
+                                                return false;
+                                            }
+                                            return false;
+                                        }
+                                    });
 
 
                                 } catch (NumberFormatException e) {
@@ -94,37 +122,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 });
     }
-
-    private void addMarker(GoogleMap googleMap, LatLng latlng, Batiment batiment) {
-        Marker marker = googleMap.addMarker(new MarkerOptions().position(latlng).title(batiment.nomBatiment));
-        markerMap.put(marker, googleMap);
-
-        for (GoogleMap gglmap: markerMap.values()) {
-            gglmap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                @Override
-                public boolean onMarkerClick(Marker marker) {
-                    // on marker click we are getting the title of our marker
-                    // which is clicked and displaying it in a toast message.
-
-
-                    String markerName = marker.getTitle();
-                    Toast.makeText(MapsActivity.this, "Clicked location is " + markerName, Toast.LENGTH_SHORT).show();
-
-                    // intent
-                    Intent intent = new Intent(MapsActivity.this, LocalListActivity.class);
-                    intent.putExtra("batid", batiment.idBatiment);
-                    intent.putExtra("batName", batiment.nomBatiment);
-                    startActivity(intent);
-
-
-                    return false;
-                }
-            });
-        }
-
-        }
-
-
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
