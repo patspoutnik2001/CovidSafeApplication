@@ -1,85 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
     tools:context=".ListeActivity">
 
     <ImageButton
         android:id="@+id/openMaps"
-        android:layout_width="82dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:contentDescription="Map"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_below="@id/logout_btn"
+        android:layout_alignLeft="@id/logout_btn"
         app:srcCompat="@android:drawable/ic_dialog_map" />
 
     <Button
         android:id="@+id/logout_btn"
         android:layout_width="118dp"
         android:layout_height="54dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="48dp"
-        android:text="@string/btn_logout"
-        app:layout_constraintEnd_toStartOf="@+id/btn_go_to_profile"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_toLeftOf="@id/btn_go_to_profile"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/btn_logout" />
 
     <Button
         android:id="@+id/btn_go_to_profile"
-        android:layout_width="56dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="150dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
+        android:background="#00FFFFFF"
         android:contentDescription="@android:string/yes"
-        app:icon="@drawable/googleg_standard_color_18"
+        android:drawableTop="?android:attr/actionModeFindDrawable"
+        android:drawableTint="@color/textColor"
+        android:drawingCacheQuality="high"
+        android:textAlignment="center"
         app:iconPadding="0dp"
         app:iconSize="30dp"
-        app:iconTintMode="multiply"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.914"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:iconTintMode="add" />
 
     <Button
         android:id="@+id/btn_export"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="170dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginEnd="149dp"
-        android:text="@string/btn_export"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_go_to_profile" />
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/btn_go_to_profile"
+        android:text="@string/btn_export" />
 
     <Button
         android:id="@+id/btn_add_bati"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="20dp"
         android:text="Add new"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_export"
-        app:layout_constraintTop_toBottomOf="@+id/openMaps" />
+        android:layout_below="@id/btn_export"
+        android:layout_alignRight="@id/btn_export"
+        android:textSize="14sp" />
 
     <ListView
         android:id="@+id/batiments_view"
-        android:layout_width="411dp"
-        android:layout_height="568dp"
-        android:layout_marginBottom="1dp"
-        android:background="#A1A1A1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/btn_add_bati"
+        android:layout_marginTop="15dp"
+        android:background="@color/backgroundColor"
         android:dividerHeight="2dp"
-        android:listSelector="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:padding="5dp" />
+</RelativeLayout>

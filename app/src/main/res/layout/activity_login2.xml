@@ -1,80 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
     tools:context=".LoginActivity">
 
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="158dp"
-        android:layout_marginTop="340dp"
-        android:layout_marginEnd="165dp"
-        android:text="@string/title_activity_login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/password_input"
+    <TextView
+        android:id="@+id/tv_login_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="236dp"
-        android:layout_marginEnd="101dp"
-        android:ems="10"
-        android:hint="@string/tv_password_hint"
-        android:inputType="textPassword"
-        android:minHeight="48dp"
-        android:text="christos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/title_activity_login"
+        android:textSize="20sp"
+        android:layout_marginBottom="50dp"
+        />
 
     <EditText
         android:id="@+id/email_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="152dp"
-        android:layout_marginEnd="101dp"
         android:ems="10"
         android:hint="@string/tv_email_hint"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
-        android:text="a@hotmail.com"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_login_activity"
-        android:layout_width="50dp"
+        android:text="a@hotmail.com" />
+    <EditText
+        android:id="@+id/password_input"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="180dp"
-        android:layout_marginTop="69dp"
-        android:layout_marginEnd="181dp"
-        android:text="@string/title_activity_login"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:ems="10"
+        android:hint="@string/tv_password_hint"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        android:text="christos"/>
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_activity_login"/>
 
     <Button
         android:id="@+id/btn_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="155dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="162dp"
-        android:text="@string/btn_make_account"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:text="@string/btn_make_account" />
+</LinearLayout>

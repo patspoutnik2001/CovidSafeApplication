@@ -20,5 +20,9 @@
     <string name="btn_scan">Scan</string>
     <string name="btn_dark_mode">Enable dark mode</string>
     <string name="btn_off_dark_mode">Disable dark mode</string>
+    <string name="add_building_display">Add new building</string>
+    <string name="input_building_name">Building name</string>
+    <string name="input_address_building">Address of Building</string>
+    <string name="btn_add_new_building">Add new</string>
 
 </resources>

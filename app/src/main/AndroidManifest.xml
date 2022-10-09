@@ -82,13 +82,7 @@
         <activity
             android:name=".ListeActivity"
             android:exported="false" />
-        <activity
-            android:name=".APITestActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
         <activity
             android:name=".LoginActivity"
             android:exported="false">
@@ -105,13 +99,7 @@
         <activity
             android:name=".PhotoActivity"
             android:exported="false" />
-        <activity
-            android:name=".ActivityMainBinding"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

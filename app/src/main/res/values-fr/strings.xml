@@ -21,5 +21,9 @@
     <string name="btn_scan">Scanner</string>
     <string name="btn_dark_mode">Activer mode sombre</string>
     <string name="btn_off_dark_mode"> Desactiver mode sombre</string>
+    <string name="add_building_display">Ajouter un nouveau batiment</string>
+    <string name="input_building_name">Nom du batiment</string>
+    <string name="input_address_building">Addresse du batiment</string>
+    <string name="btn_add_new_building">Ajouter</string>
 
 </resources>
