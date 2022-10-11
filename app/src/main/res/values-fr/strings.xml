@@ -25,5 +25,8 @@
     <string name="input_building_name">Nom du batiment</string>
     <string name="input_address_building">Addresse du batiment</string>
     <string name="btn_add_new_building">Ajouter</string>
+    <string name="taux_error">Taux pas correct</string>
+    <string name="hum_string">Humidite</string>
+
 
 </resources>

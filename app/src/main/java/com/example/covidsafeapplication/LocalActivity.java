@@ -38,13 +38,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class LocalActivity extends AppCompatActivity {
 
     ImageButton exportPDF;
     TextView display_name, display_mesures;
     ArrayList<JSONObject> mesures_list;
+    ArrayList<Mesure> mesures;
     Local current_local;
     private RequestQueue mQueue;
 
@@ -54,6 +58,7 @@ public class LocalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_local);
         mesures_list = new ArrayList<>();
+        mesures = new ArrayList<>();
         mQueue = Volley.newRequestQueue(this);
 
         Bundle extras = getIntent().getExtras();
@@ -92,9 +97,7 @@ public class LocalActivity extends AppCompatActivity {
         display_name = findViewById(R.id.tv_display_local_name);
         display_mesures = findViewById(R.id.display_all_mesures);
         display_mesures.setMovementMethod(new ScrollingMovementMethod());
-        if (current_local != null) {
 
-        }
 
 
         exportPDF.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +109,6 @@ public class LocalActivity extends AppCompatActivity {
     }
 
     private void initMesures() {
-        String data = "";
         String url = "https://patryk.alwaysdata.net/CovidSafeRoom/api.php";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -114,27 +116,32 @@ public class LocalActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             JSONArray jsonArray = response.getJSONArray("mesures");
+                            SimpleDateFormat formatter=new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
                             System.out.println(jsonArray.length());
                             mesures_list.clear();
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject mes = jsonArray.getJSONObject(i);
-                                String date = mes.getString("date_");
+                                //String dateStr = mes.getString("date_");
+                                Date date = formatter.parse(mes.getString("date_"));
                                 String idMesure = mes.getString("idMesure");
                                 //int id=Integer.getInteger(idMesure);
                                 String taux = mes.getString("taux");
-                                //int t= Integer.getInteger(taux);
+                                //int taux= Integer.getInteger(mes.getString("taux"));
                                 String type = mes.getString("typeData");
-                                //int typeData= Integer.getInteger(type);
+                                //int type= Integer.getInteger(mes.getString("typeData"));
                                 String idL = mes.getString("idLocal");
                                 //int iL = Integer.getInteger(idL);
                                 if (idL.equals(current_local.id + "")) {
                                     mesures_list.add(mes);
-                                    display_mesures.append(idMesure + ", " + taux + ", " + type + ", " + date + ", " + idL + "\n\n");
+                                    addToMesures(mes);
+                                    display_mesures.append(idMesure + ", " + taux + ", " + getType(type) + ", " + date.toString() + ", " + idL + "\n\n");
                                 }
                             }
                             Toast.makeText(getApplicationContext(), "All data fetched", Toast.LENGTH_SHORT).show();
                             //display_mesures.setText(mesures_list.toString());
                         } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (ParseException e) {
                             e.printStackTrace();
                         }
                     }
@@ -150,9 +157,22 @@ public class LocalActivity extends AppCompatActivity {
 
     }
 
+    private void addToMesures(JSONObject mes) {
+        //TODO: ajouter dans la liste puis trier par date et faire les moyennes
+    }
+
     private void goToListBat() {
         Intent intent = new Intent(this, ListeActivity.class);
         startActivity(intent);
+    }
+    private String getType(String t){
+        if (t.equals("1"))
+            return "Temperature";
+        if (t.equals("2"))
+            return getString(R.string.hum_string);
+        if (t.equals("3"))
+            return "CO2";
+        return getString(R.string.taux_error);
     }
 
     private void goToExport() {
