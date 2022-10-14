@@ -56,7 +56,6 @@ public class LocalActivity extends AppCompatActivity {
     ArrayList<Mesure> mesures;
     Local current_local;
     private RequestQueue mQueue;
-    int[] daysOfTheWeek = {0,0,0,0,0,0,0};
 
 
     @Override
@@ -169,26 +168,31 @@ public class LocalActivity extends AppCompatActivity {
     }
 
     private void displayMesures() {
-        for (int i = 0; i < daysOfTheWeek.length; i++) {
-            int cpt=0;
+        displayOne("1");
+        displayOne("2");
+        displayOne("3");
 
+
+    }
+
+    private void displayOne(String t) {
+        for (int i = 0; i < 7; i++) {
+            int cpt=0;
+            int current_day_sum=0;
             for (Mesure item:mesures) {
                 //System.out.println(item.id+" : "+Calendar.getInstance().get(Calendar.DATE) + " >< "+item.date.get(Calendar.DATE));
-                if (Calendar.getInstance().get(Calendar.DATE)==item.date.get(Calendar.DATE) && item.typeData.equals("1")) {
-                    daysOfTheWeek[0] = Integer.parseInt(item.taux);
+                if (Calendar.getInstance().get(Calendar.DATE)==item.date.get(Calendar.DATE) && item.typeData.equals(t)) {
+                    current_day_sum+= Integer.parseInt(item.taux);
                     cpt++;
-                    //display_mesures.append("found one" + "\n\n");
-                    System.out.println("got one");
                 }
 
             }
             if (cpt!=0) {
-                daysOfTheWeek[i] = daysOfTheWeek[i] / cpt;
-                display_mesures.append(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)-i+"/"+Calendar.getInstance().get(Calendar.MONTH)+": Avarage temp : " + daysOfTheWeek[i]+"°C" + "\n\n");
+                current_day_sum = current_day_sum / cpt;
             }
+            display_mesures.append(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)-i+"/"+Calendar.getInstance().get(Calendar.MONTH)+": Avarage "+getTypeMesure(t)+ ": " + current_day_sum+ "\n\n");
+
         }
-
-
     }
 
     private void goToListBat() {
@@ -197,7 +201,7 @@ public class LocalActivity extends AppCompatActivity {
     }
     private String getTypeMesure(String t){
         if (t.equals("1"))
-            return "Temperature";
+            return "Temp";
         if (t.equals("2"))
             return getString(R.string.hum_string);
         if (t.equals("3"))
