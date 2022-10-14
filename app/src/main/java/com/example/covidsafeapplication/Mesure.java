@@ -1,11 +1,14 @@
 package com.example.covidsafeapplication;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class Mesure {
-    int id,taux,typeData,idLocal;
-    String date;
+    String id,taux,typeData,idLocal;
+    Calendar date;
 
 
-    Mesure(int _i,int _t, int _td,int _l,String _d){
+    Mesure(String _i, String _t, String _td, String _l, Calendar _d){
         id=_i;
         taux=_t;
         typeData=_td;
@@ -15,11 +18,11 @@ public class Mesure {
 
 
     public String getType(){
-        if (typeData==1)
+        if (typeData.equals("1"))
             return "Temperature";
-        if (typeData==2)
+        if (typeData.equals("2"))
             return "Humidity";
-        if (typeData==3)
+        if (typeData.equals("3"))
             return "CO2";
 
         return "null";

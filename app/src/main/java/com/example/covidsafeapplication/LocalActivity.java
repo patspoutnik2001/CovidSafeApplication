@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.type.DateTime;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,8 +42,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class LocalActivity extends AppCompatActivity {
 
@@ -51,6 +56,7 @@ public class LocalActivity extends AppCompatActivity {
     ArrayList<Mesure> mesures;
     Local current_local;
     private RequestQueue mQueue;
+    int[] daysOfTheWeek = {0,0,0,0,0,0,0};
 
 
     @Override
@@ -116,29 +122,34 @@ public class LocalActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             JSONArray jsonArray = response.getJSONArray("mesures");
-                            SimpleDateFormat formatter=new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss", Locale.ENGLISH);
                             System.out.println(jsonArray.length());
-                            mesures_list.clear();
+                            mesures.clear();
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject mes = jsonArray.getJSONObject(i);
                                 //String dateStr = mes.getString("date_");
-                                Date date = formatter.parse(mes.getString("date_"));
-                                String idMesure = mes.getString("idMesure");
+                                Calendar date = Calendar.getInstance();
+
+                                date.setTime(sdf.parse(mes.getString("date_")));
+                                String idMesure = mes.getString("idMesure").trim();
+                                //System.out.println("id mesure: "+idMesure);
                                 //int id=Integer.getInteger(idMesure);
-                                String taux = mes.getString("taux");
-                                //int taux= Integer.getInteger(mes.getString("taux"));
-                                String type = mes.getString("typeData");
-                                //int type= Integer.getInteger(mes.getString("typeData"));
-                                String idL = mes.getString("idLocal");
+                                String tauxMesure = mes.getString("taux").trim();
+                                //int taux= Integer.getInteger(tauxMesure);
+                                String typeMesure = mes.getString("typeData").trim();
+                                //int type= Integer.getInteger(typeMesure);
+                                String idL = mes.getString("idLocal").trim();
                                 //int iL = Integer.getInteger(idL);
                                 if (idL.equals(current_local.id + "")) {
-                                    mesures_list.add(mes);
-                                    addToMesures(mes);
-                                    display_mesures.append(idMesure + ", " + taux + ", " + getType(type) + ", " + date.toString() + ", " + idL + "\n\n");
+                                    //mesures_list.add(mes);
+                                    Mesure mesure = new Mesure(idMesure,tauxMesure,typeMesure,idL,date);
+                                    mesures.add(mesure);
+                                    //display_mesures.append(idMesure + ", " + tauxMesure + ", " + getTypeMesure(typeMesure) + ", " + date.toString() + ", " + idL + "\n\n");
                                 }
                             }
                             Toast.makeText(getApplicationContext(), "All data fetched", Toast.LENGTH_SHORT).show();
                             //display_mesures.setText(mesures_list.toString());
+                            displayMesures();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (ParseException e) {
@@ -157,15 +168,34 @@ public class LocalActivity extends AppCompatActivity {
 
     }
 
-    private void addToMesures(JSONObject mes) {
-        //TODO: ajouter dans la liste puis trier par date et faire les moyennes
+    private void displayMesures() {
+        for (int i = 0; i < daysOfTheWeek.length; i++) {
+            int cpt=0;
+
+            for (Mesure item:mesures) {
+                //System.out.println(item.id+" : "+Calendar.getInstance().get(Calendar.DATE) + " >< "+item.date.get(Calendar.DATE));
+                if (Calendar.getInstance().get(Calendar.DATE)==item.date.get(Calendar.DATE) && item.typeData.equals("1")) {
+                    daysOfTheWeek[0] = Integer.parseInt(item.taux);
+                    cpt++;
+                    //display_mesures.append("found one" + "\n\n");
+                    System.out.println("got one");
+                }
+
+            }
+            if (cpt!=0) {
+                daysOfTheWeek[i] = daysOfTheWeek[i] / cpt;
+                display_mesures.append(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)-i+"/"+Calendar.getInstance().get(Calendar.MONTH)+": Avarage temp : " + daysOfTheWeek[i]+"°C" + "\n\n");
+            }
+        }
+
+
     }
 
     private void goToListBat() {
         Intent intent = new Intent(this, ListeActivity.class);
         startActivity(intent);
     }
-    private String getType(String t){
+    private String getTypeMesure(String t){
         if (t.equals("1"))
             return "Temperature";
         if (t.equals("2"))
