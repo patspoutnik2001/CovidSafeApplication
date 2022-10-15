@@ -9,6 +9,12 @@
     tools:context=".LocalListActivity">
 
     <TextView
+        android:id="@+id/tvTemp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
         android:id="@+id/local_name_display"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

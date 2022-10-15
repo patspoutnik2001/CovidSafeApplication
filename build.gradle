@@ -1,6 +1,15 @@
 buildscript {
+    repositories {
+        maven {
+            url "https://maven.google.com"
+        }
+
+        jcenter()
+    }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.14'
+        //noinspection GradlePluginVersion
+        classpath 'com.android.tools.build:gradle:4.0.2'
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {

@@ -100,7 +100,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                                 // get the batiment object
                                                 Batiment batiment = markerMap.get(marker);
 
-                                                System.out.println("batiment id: " + batiment.idBatiment+ "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                                                System.out.println("batiment id: " + batiment.idBatiment);
                                                 System.out.println("batiment name: " + batiment.nomBatiment);
 
 
