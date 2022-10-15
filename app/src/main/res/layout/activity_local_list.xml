@@ -8,11 +8,7 @@
     android:gravity="center_vertical"
     tools:context=".LocalListActivity">
 
-    <TextView
-        android:id="@+id/tvTemp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+
 
     <TextView
         android:id="@+id/local_name_display"
@@ -21,9 +17,16 @@
         android:text="local name"
         android:textAlignment="center"
         android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
         android:layout_gravity="center"
         android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/tvTemp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:layout_marginBottom="50dp"/>
 
     <ListView
         android:id="@+id/local_list"

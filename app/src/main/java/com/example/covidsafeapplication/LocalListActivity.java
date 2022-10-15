@@ -36,7 +36,7 @@ public class LocalListActivity extends AppCompatActivity {
     ArrayList<Local> locals = new ArrayList<>();
 
 
-    String city = "London";
+    float lon, lat;
     TextView tvTemp;
 
 
@@ -97,13 +97,39 @@ public class LocalListActivity extends AppCompatActivity {
         });
 
         loadWeatherByCityName();
-        tvTemp.setText("Temperature: " + city);
     }
 
     private void loadWeatherByCityName() {
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("batiment")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                int i=Integer.parseInt( document.get("idBatiment").toString());
+                                if( i == batiment.idBatiment){
+
+                                    // get latitude and longitude as float
+                                    lat = Float.parseFloat(document.get("latitude").toString());
+                                    lon = Float.parseFloat(document.get("longitude").toString());
+                                    System.out.println("lat: " + lat + " lon: " + lon);
+                                }
+
+                            }
+
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+
+
         // get the temp from openweather api
         Ion.with(this)
-                .load("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=5bdff022d351650cee55cec49c82c67b")
+                .load("https://api.openweathermap.org/data/2.5/weather?lat="+ lat + "&lon="+ lon + "&appid=5bdff022d351650cee55cec49c82c67b")
                 .asJsonObject()
                 .setCallback((e, result) -> {
                     if (e != null) {
@@ -112,8 +138,11 @@ public class LocalListActivity extends AppCompatActivity {
                     }
                     if (result != null) {
                         String temp = result.get("main").getAsJsonObject().get("temp").getAsString();
-                        tvTemp.setText("Temperature: " + temp);
+                        // transform the temp from kelvin to celsius
+                        float celsius = Float.parseFloat(temp) - 283.15f + 1;
+                        tvTemp.setText("Temperature: " + celsius + "°C");
                     }
+
                 });
 
 
