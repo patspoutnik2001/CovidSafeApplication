@@ -181,7 +181,7 @@ public class LocalActivity extends AppCompatActivity {
             int current_day_sum=0;
             for (Mesure item:mesures) {
                 //System.out.println(item.id+" : "+Calendar.getInstance().get(Calendar.DATE) + " >< "+item.date.get(Calendar.DATE));
-                if (Calendar.getInstance().get(Calendar.DATE)==item.date.get(Calendar.DATE) && item.typeData.equals(t)) {
+                if (Calendar.getInstance().get(Calendar.DATE)-i==item.date.get(Calendar.DATE) && item.typeData.equals(t)) {
                     current_day_sum+= Integer.parseInt(item.taux);
                     cpt++;
                 }
