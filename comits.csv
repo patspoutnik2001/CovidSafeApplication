@@ -1,0 +1,501 @@
+2022-10-15T15:45:43+02:00,1991b3b,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,bug fix
+ app/src/main/java/com/example/covidsafeapplication/LocalActivity.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+2022-10-15T15:40:27+02:00,ba92b90,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,Temp fini
+ .../covidsafeapplication/LocalListActivity.java    | 37 +++++++++++++++++++---
+ app/src/main/res/layout/activity_local_list.xml    | 15 +++++----
+ 2 files changed, 42 insertions(+), 10 deletions(-)
+
+2022-10-15T14:50:38+02:00,d572022,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,Temperature de batiment done
+ app/build.gradle                                   |  2 +
+ .../covidsafeapplication/LocalListActivity.java    | 64 +++++++++++++++++-----
+ .../example/covidsafeapplication/MapsActivity.java |  2 +-
+ app/src/main/res/layout/activity_local_list.xml    |  6 ++
+ build.gradle                                       |  9 +++
+ 5 files changed, 67 insertions(+), 16 deletions(-)
+
+2022-10-14T23:56:01+02:00,7e8b6c8,Patryk Krasucki,krasuckipatryk2001@gmail.com,update je sias pas quioi
+ .../covidsafeapplication/LocalActivity.java        | 28 ++++++++++++----------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
+
+2022-10-14T23:06:04+02:00,def7880,Patryk Krasucki,krasuckipatryk2001@gmail.com,average temp
+ .../covidsafeapplication/LocalActivity.java        | 60 ++++++++++++++++------
+ .../com/example/covidsafeapplication/Mesure.java   | 15 +++---
+ 2 files changed, 54 insertions(+), 21 deletions(-)
+
+2022-10-11T22:46:11+02:00,03c935a,Patryk Krasucki,krasuckipatryk2001@gmail.com,update mesure activity
+ .../covidsafeapplication/LocalActivity.java        | 34 +++++++++++++++++-----
+ app/src/main/res/values-fr/strings.xml             |  3 ++
+ app/src/main/res/values/strings.xml                |  2 ++
+ 3 files changed, 32 insertions(+), 7 deletions(-)
+
+2022-10-09T13:04:29+02:00,bdde8ef,Patryk Krasucki,krasuckipatryk2001@gmail.com,update all design
+ app/src/debug/helb_logo_image-playstore.png        | Bin 0 -> 95927 bytes
+ .../res/drawable/helb_logo_image_background.xml    |  74 ++++++++++++++++
+ .../res/mipmap-anydpi-v26/helb_logo_image.xml      |   5 ++
+ .../mipmap-anydpi-v26/helb_logo_image_round.xml    |   5 ++
+ app/src/debug/res/mipmap-hdpi/helb_logo_image.png  | Bin 0 -> 3239 bytes
+ .../res/mipmap-hdpi/helb_logo_image_foreground.png | Bin 0 -> 6948 bytes
+ .../res/mipmap-hdpi/helb_logo_image_round.png      | Bin 0 -> 5580 bytes
+ app/src/debug/res/mipmap-mdpi/helb_logo_image.png  | Bin 0 -> 1988 bytes
+ .../res/mipmap-mdpi/helb_logo_image_foreground.png | Bin 0 -> 3840 bytes
+ .../res/mipmap-mdpi/helb_logo_image_round.png      | Bin 0 -> 3215 bytes
+ app/src/debug/res/mipmap-xhdpi/helb_logo_image.png | Bin 0 -> 4817 bytes
+ .../mipmap-xhdpi/helb_logo_image_foreground.png    | Bin 0 -> 10785 bytes
+ .../res/mipmap-xhdpi/helb_logo_image_round.png     | Bin 0 -> 8429 bytes
+ .../debug/res/mipmap-xxhdpi/helb_logo_image.png    | Bin 0 -> 8522 bytes
+ .../mipmap-xxhdpi/helb_logo_image_foreground.png   | Bin 0 -> 20862 bytes
+ .../res/mipmap-xxhdpi/helb_logo_image_round.png    | Bin 0 -> 14755 bytes
+ .../debug/res/mipmap-xxxhdpi/helb_logo_image.png   | Bin 0 -> 13228 bytes
+ .../mipmap-xxxhdpi/helb_logo_image_foreground.png  | Bin 0 -> 34111 bytes
+ .../res/mipmap-xxxhdpi/helb_logo_image_round.png   | Bin 0 -> 22765 bytes
+ app/src/main/AndroidManifest.xml                   |  16 +---
+ .../covidsafeapplication/APITestActivity.java      |  96 ---------------------
+ .../covidsafeapplication/ActivityMainBinding.java  |  88 -------------------
+ app/src/main/res/layout/activity_add_batiment.xml  |  57 ++++--------
+ app/src/main/res/layout/activity_apitest.xml       |  23 -----
+ app/src/main/res/layout/activity_liste.xml         |  84 ++++++++----------
+ app/src/main/res/layout/activity_local.xml         |  44 +++++-----
+ app/src/main/res/layout/activity_local_list.xml    |  34 +++-----
+ app/src/main/res/layout/activity_login2.xml        |  75 +++++-----------
+ app/src/main/res/layout/activity_main.xml          |  65 ++++++++------
+ app/src/main/res/layout/activity_profile.xml       |  27 ++----
+ app/src/main/res/layout/activity_settings.xml      |  12 +--
+ app/src/main/res/values-fr/strings.xml             |   4 +
+ app/src/main/res/values/strings.xml                |   4 +
+ 33 files changed, 256 insertions(+), 457 deletions(-)
+
+2022-10-09T11:25:35+02:00,b8e9ec9,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,MarkerMap Fonctionnel
+ .../example/covidsafeapplication/MapsActivity.java | 69 +++++++++++-----------
+ 1 file changed, 33 insertions(+), 36 deletions(-)
+
+2022-10-08T21:40:06+02:00,b23b2e9,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,PUSH SANS AVOIR TEST
+ .../example/covidsafeapplication/MapsActivity.java | 57 ++++++++++++----------
+ 1 file changed, 30 insertions(+), 27 deletions(-)
+
+2022-10-08T21:12:09+02:00,070b79e,Patryk Krasucki,krasuckipatryk2001@gmail.com,delete spinner in settings
+ .../covidsafeapplication/SettingsActivity.java     | 25 ----------------------
+ app/src/main/res/layout/activity_settings.xml      | 11 ----------
+ 2 files changed, 36 deletions(-)
+
+2022-10-08T21:04:01+02:00,34c556e,Patryk Krasucki,krasuckipatryk2001@gmail.com,scan update
+ app/src/main/java/com/example/covidsafeapplication/PhotoActivity.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+2022-10-08T21:01:49+02:00,ca77122,Patryk Krasucki,krasuckipatryk2001@gmail.com,je sais pas
+ .../main/java/com/example/covidsafeapplication/LocalListActivity.java | 4 +---
+ app/src/main/java/com/example/covidsafeapplication/MapsActivity.java  | 4 ++++
+ 2 files changed, 5 insertions(+), 3 deletions(-)
+
+2022-10-08T11:29:56+02:00,0327502,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,Fix V2
+ .../java/com/example/covidsafeapplication/LocalListActivity.java   | 7 ++++++-
+ .../main/java/com/example/covidsafeapplication/MapsActivity.java   | 6 +++---
+ 2 files changed, 9 insertions(+), 4 deletions(-)
+
+2022-10-08T11:18:56+02:00,01c4731,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,Little fix V1
+ app/src/main/java/com/example/covidsafeapplication/MapsActivity.java | 1 +
+ 1 file changed, 1 insertion(+)
+
+2022-10-08T11:15:15+02:00,b47eef4,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,Multi Marker done
+ .../com/example/covidsafeapplication/Batiment.java |  16 ++-
+ .../covidsafeapplication/LocalActivity.java        |  28 +++---
+ .../example/covidsafeapplication/MapsActivity.java | 107 +++++++++++++++------
+ 3 files changed, 105 insertions(+), 46 deletions(-)
+
+2022-10-07T23:26:08+02:00,bb09b88,Patryk Krasucki,krasuckipatryk2001@gmail.com,???
+ .../main/java/com/example/covidsafeapplication/LocalListActivity.java | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+2022-10-07T23:10:10+02:00,da2d6d4,Patryk Krasucki,krasuckipatryk2001@gmail.com,bug idlocal
+ .../main/java/com/example/covidsafeapplication/LocalListActivity.java | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+2022-10-07T23:07:10+02:00,ae0e13f,Patryk Krasucki,krasuckipatryk2001@gmail.com,fff
+ .../java/com/example/covidsafeapplication/MapsActivity.java   | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+2022-10-07T23:02:35+02:00,4855706,Patryk Krasucki,krasuckipatryk2001@gmail.com,my location grskjhgrsiouhgriu
+ app/src/main/AndroidManifest.xml                   |   3 +-
+ .../example/covidsafeapplication/GpsTracker.java   | 221 +++++++++++++++++++++
+ .../example/covidsafeapplication/MapsActivity.java |  19 +-
+ 3 files changed, 237 insertions(+), 6 deletions(-)
+
+2022-10-07T22:49:54+02:00,2666e9f,Patryk Krasucki,krasuckipatryk2001@gmail.com,my push :)
+ app/src/main/AndroidManifest.xml                   |  1 +
+ .../example/covidsafeapplication/MapsActivity.java | 24 +++++++++++++---------
+ 2 files changed, 15 insertions(+), 10 deletions(-)
+
+2022-10-07T22:49:08+02:00,3def27e,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,Merge branch 'master' of https://github.com/patspoutnik2001/CovidSafeApplication
+2022-10-07T22:48:42+02:00,021e794,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,PDF fonctionnel
+ .../covidsafeapplication/ExportActivity.java       | 179 ++++++---------------
+ app/src/main/res/layout/activity_export.xml        |  56 +++++--
+ 2 files changed, 92 insertions(+), 143 deletions(-)
+
+2022-10-07T22:39:50+02:00,2483fda,Patryk Krasucki,krasuckipatryk2001@gmail.com,code qr fini
+ .../covidsafeapplication/LocalActivity.java        | 48 +++++++++++++++++++---
+ .../example/covidsafeapplication/MapsActivity.java |  2 +
+ .../covidsafeapplication/PhotoActivity.java        | 14 ++++++-
+ 3 files changed, 56 insertions(+), 8 deletions(-)
+
+2022-10-07T21:36:43+02:00,70a425c,Patryk Krasucki,krasuckipatryk2001@gmail.com,add building
+ .../example/covidsafeapplication/AddBatiment.java  | 90 ++++++++++++++++------
+ .../covidsafeapplication/ListeActivity.java        | 39 ++++------
+ .../example/covidsafeapplication/MainActivity.java | 15 +---
+ app/src/main/res/layout/activity_liste.xml         | 13 ++++
+ app/src/main/res/layout/activity_main.xml          | 12 ---
+ app/src/main/res/values-fr/strings.xml             |  2 +-
+ app/src/main/res/values/strings.xml                |  2 +-
+ 7 files changed, 97 insertions(+), 76 deletions(-)
+
+2022-10-07T19:38:20+02:00,dab5341,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,Retour de latitude longitude fonctionnelle
+ .../example/covidsafeapplication/AddBatiment.java  | 22 +++++++++++++++++++++-
+ .../com/example/covidsafeapplication/Batiment.java | 16 +---------------
+ 2 files changed, 22 insertions(+), 16 deletions(-)
+
+2022-10-07T18:50:52+02:00,0e2ba5d,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,test
+ .../com/example/covidsafeapplication/Batiment.java   | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+2022-10-07T16:27:56+02:00,9868fe7,Patryk Krasucki,100041611+patspoutnik2001@users.noreply.github.com,add api
+ .../covidsafeapplication/ActivityMainBinding.java  |  2 -
+ .../covidsafeapplication/LocalActivity.java        | 85 +++++++++++++++++++++-
+ .../covidsafeapplication/LocalListActivity.java    | 17 ++++-
+ .../example/covidsafeapplication/MainActivity.java | 15 +---
+ .../example/covidsafeapplication/MapsActivity.java |  6 +-
+ .../com/example/covidsafeapplication/Mesure.java   | 13 ++++
+ app/src/main/res/layout/activity_local.xml         |  3 +-
+ app/src/main/res/layout/activity_main.xml          | 24 ++----
+ 8 files changed, 122 insertions(+), 43 deletions(-)
+
+2022-10-07T14:53:26+02:00,01b5fbd,Patryk Krasucki,100041611+patspoutnik2001@users.noreply.github.com,add local update
+ .../covidsafeapplication/LocalActivity.java        | 12 +++++++
+ .../com/example/covidsafeapplication/Mesure.java   | 14 ++++++++
+ app/src/main/res/layout/activity_local.xml         | 39 +++++++++++++++++++---
+ 3 files changed, 61 insertions(+), 4 deletions(-)
+
+2022-10-06T23:36:08+02:00,065ea1c,Patryk Krasucki,krasuckipatryk2001@gmail.com,auto login
+ .../covidsafeapplication/ListeActivity.java        |  4 +++
+ .../covidsafeapplication/LoginActivity.java        |  8 ++++++
+ .../example/covidsafeapplication/MainActivity.java | 30 +++++++++++++++++-----
+ 3 files changed, 35 insertions(+), 7 deletions(-)
+
+2022-10-06T23:00:41+02:00,8d0b301,Patryk Krasucki,krasuckipatryk2001@gmail.com,add les locaux
+ app/src/main/AndroidManifest.xml                   |  7 ++
+ .../covidsafeapplication/ListeActivity.java        |  6 +-
+ .../com/example/covidsafeapplication/Local.java    | 14 ++++
+ .../covidsafeapplication/LocalListActivity.java    | 74 ++++++++++++++++++++++
+ .../covidsafeapplication/LocalListAdapter.java     | 47 ++++++++++++++
+ .../example/covidsafeapplication/MainActivity.java |  2 +-
+ .../main/res/layout/activity_custom_list_view.xml  |  3 +-
+ app/src/main/res/layout/activity_local_list.xml    | 36 +++++++++++
+ app/src/main/res/layout/activity_login2.xml        |  2 +
+ app/src/main/res/layout/local_custom_list_view.xml | 15 +++++
+ 10 files changed, 203 insertions(+), 3 deletions(-)
+
+2022-10-06T01:43:55+02:00,7e41ae6,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,ajout ajout de batiments tenter de fix pdf generator
+ app/build.gradle                                   |   8 ++
+ app/src/main/AndroidManifest.xml                   |   7 ++
+ .../example/covidsafeapplication/AddBatiment.java  |  70 +++++++++++++
+ .../covidsafeapplication/ExportActivity.java       | 109 +++++++++++++--------
+ .../example/covidsafeapplication/MainActivity.java |  20 +++-
+ app/src/main/res/layout/activity_add_batiment.xml  |  63 ++++++++++++
+ app/src/main/res/layout/activity_main.xml          |  14 +++
+ 7 files changed, 246 insertions(+), 45 deletions(-)
+
+2022-10-05T22:23:25+02:00,7adb01d,Patryk Krasucki,krasuckipatryk2001@gmail.com,list
+ app/src/main/AndroidManifest.xml                   | 31 ++++++--------
+ .../covidsafeapplication/CustomBaseAdapter.java    | 50 ++++++++++++++++++++++
+ .../covidsafeapplication/CustomListView.java       | 14 ++++++
+ .../covidsafeapplication/ListeActivity.java        | 47 +++++++++++++++++---
+ .../main/res/layout/activity_custom_list_view.xml  | 17 ++++++++
+ app/src/main/res/layout/activity_liste.xml         | 36 +++++++---------
+ 6 files changed, 153 insertions(+), 42 deletions(-)
+
+2022-10-04T10:20:38+02:00,e840d88,Patryk Krasucki,100041611+patspoutnik2001@users.noreply.github.com,add langages
+ app/src/debug/logo_helb-playstore.png              | Bin 0 -> 89446 bytes
+ .../debug/res/drawable/logo_helb_background.xml    |  74 +++++++++++++++++++++
+ app/src/debug/res/mipmap-anydpi-v26/logo_helb.xml  |   5 ++
+ .../res/mipmap-anydpi-v26/logo_helb_round.xml      |   5 ++
+ app/src/debug/res/mipmap-hdpi/logo_helb.png        | Bin 0 -> 3135 bytes
+ .../debug/res/mipmap-hdpi/logo_helb_foreground.png | Bin 0 -> 7101 bytes
+ app/src/debug/res/mipmap-hdpi/logo_helb_round.png  | Bin 0 -> 5556 bytes
+ app/src/debug/res/mipmap-mdpi/logo_helb.png        | Bin 0 -> 1939 bytes
+ .../debug/res/mipmap-mdpi/logo_helb_foreground.png | Bin 0 -> 3570 bytes
+ app/src/debug/res/mipmap-mdpi/logo_helb_round.png  | Bin 0 -> 3198 bytes
+ app/src/debug/res/mipmap-xhdpi/logo_helb.png       | Bin 0 -> 4686 bytes
+ .../res/mipmap-xhdpi/logo_helb_foreground.png      | Bin 0 -> 10991 bytes
+ app/src/debug/res/mipmap-xhdpi/logo_helb_round.png | Bin 0 -> 8379 bytes
+ app/src/debug/res/mipmap-xxhdpi/logo_helb.png      | Bin 0 -> 8773 bytes
+ .../res/mipmap-xxhdpi/logo_helb_foreground.png     | Bin 0 -> 21331 bytes
+ .../debug/res/mipmap-xxhdpi/logo_helb_round.png    | Bin 0 -> 15046 bytes
+ app/src/debug/res/mipmap-xxxhdpi/logo_helb.png     | Bin 0 -> 13497 bytes
+ .../res/mipmap-xxxhdpi/logo_helb_foreground.png    | Bin 0 -> 32886 bytes
+ .../debug/res/mipmap-xxxhdpi/logo_helb_round.png   | Bin 0 -> 23155 bytes
+ app/src/main/AndroidManifest.xml                   |   6 +-
+ .../covidsafeapplication/SettingsActivity.java     |  39 +++++++++--
+ app/src/main/res/layout/activity_apitest.xml       |   4 +-
+ app/src/main/res/layout/activity_export.xml        |   2 +-
+ app/src/main/res/layout/activity_liste.xml         |   4 +-
+ app/src/main/res/layout/activity_login2.xml        |  10 +--
+ app/src/main/res/layout/activity_main.xml          |   4 +-
+ app/src/main/res/layout/activity_photo.xml         |   6 +-
+ app/src/main/res/layout/activity_settings.xml      |  21 +++++-
+ app/src/main/res/values-fr/strings.xml             |  25 +++++++
+ app/src/main/res/values-night/strings.xml          |   7 +-
+ app/src/main/res/values/lang_array.xml             |   7 ++
+ app/src/main/res/values/strings.xml                |  19 ++++--
+ 32 files changed, 206 insertions(+), 32 deletions(-)
+
+2022-10-03T19:25:52+02:00,60ce192,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,Merge branch 'master' of https://github.com/patspoutnik2001/CovidSafeApplication
+2022-10-03T19:25:21+02:00,e4829b6,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,Ajout export PDF
+ app/src/main/AndroidManifest.xml                   |  20 +++-
+ .../covidsafeapplication/ExportActivity.java       | 125 +++++++++------------
+ 2 files changed, 68 insertions(+), 77 deletions(-)
+
+2022-10-02T23:39:39+02:00,fe7d574,Patryk Krasucki,krasuckipatryk2001@gmail.com,tout functionne
+ .../example/covidsafeapplication/ListeActivity.java  | 20 ++++++++++----------
+ .../example/covidsafeapplication/MainActivity.java   |  2 +-
+ app/src/main/res/layout/activity_liste.xml           | 12 ++++++------
+ 3 files changed, 17 insertions(+), 17 deletions(-)
+
+2022-10-02T23:25:50+02:00,8ec857a,Patryk Krasucki,krasuckipatryk2001@gmail.com,add je ais pas qu9irhoiurghfigr
+ app/build.gradle                                   |  2 +
+ .../com/example/covidsafeapplication/Batiment.java | 11 +++++
+ .../covidsafeapplication/ListeActivity.java        | 49 +++++++++++++++++++---
+ app/src/main/res/layout/activity_liste.xml         | 12 ++++++
+ 4 files changed, 69 insertions(+), 5 deletions(-)
+
+2022-10-02T23:03:26+02:00,bd23642,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,Export PDF (non fonctionnel)
+ app/src/main/AndroidManifest.xml                   |   8 +
+ .../covidsafeapplication/ExportActivity.java       | 172 +++++++++++++++++++++
+ .../covidsafeapplication/LocalActivity.java        |  21 +++
+ .../example/covidsafeapplication/MainActivity.java |   2 +-
+ app/src/main/res/drawable/gfgimage.xml             |   9 ++
+ app/src/main/res/layout/activity_export.xml        |  19 +++
+ app/src/main/res/layout/activity_local.xml         |   9 ++
+ 7 files changed, 239 insertions(+), 1 deletion(-)
+
+2022-10-02T21:19:08+02:00,093119d,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,Google Map Fonctionnel
+ app/build.gradle                                   |  2 +-
+ app/src/main/AndroidManifest.xml                   |  2 +-
+ .../example/covidsafeapplication/MainActivity.java |  9 ---------
+ .../example/covidsafeapplication/MapsActivity.java | 10 +++++++---
+ app/src/main/res/layout/activity_maps.xml          | 22 +++++++++++++++++-----
+ 5 files changed, 26 insertions(+), 19 deletions(-)
+
+2022-10-02T20:51:31+02:00,a832d2d,Patryk Krasucki,krasuckipatryk2001@gmail.com,api functionne!
+ .../java/com/example/covidsafeapplication/APITestActivity.java     | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+2022-10-02T13:06:49+02:00,a0b8567,Patryk Krasucki,krasuckipatryk2001@gmail.com,api test avec volley
+ app/build.gradle                                   |  1 +
+ .../covidsafeapplication/APITestActivity.java      | 77 +++++++++++-----------
+ app/src/main/res/layout/activity_apitest.xml       | 26 ++------
+ 3 files changed, 48 insertions(+), 56 deletions(-)
+
+2022-10-02T11:56:42+02:00,4a7d04f,Patryk Krasucki,krasuckipatryk2001@gmail.com,add profile activity
+ app/src/main/AndroidManifest.xml                   |  8 ++++-
+ .../covidsafeapplication/ListeActivity.java        | 11 ++++++-
+ .../covidsafeapplication/ProfileActivity.java      | 35 ++++++++++++++++++++
+ app/src/main/res/layout/activity_liste.xml         | 37 ++++++++++++++++++++--
+ app/src/main/res/layout/activity_profile.xml       | 32 +++++++++++++++++++
+ 5 files changed, 119 insertions(+), 4 deletions(-)
+
+2022-10-01T21:55:51+02:00,ea549bd,Patryk Krasucki,krasuckipatryk2001@gmail.com,add login
+ .../covidsafeapplication/ListeActivity.java        | 12 ++++++++
+ .../covidsafeapplication/LoginActivity.java        | 33 +++++++++++++---------
+ .../example/covidsafeapplication/MainActivity.java |  7 ++---
+ app/src/main/res/layout/activity_liste.xml         |  5 ++--
+ 4 files changed, 37 insertions(+), 20 deletions(-)
+
+2022-10-01T21:42:15+02:00,a635c44,Patryk Krasucki,krasuckipatryk2001@gmail.com,add creation compte
+ .../covidsafeapplication/LoginActivity.java        | 39 ++++++++++-
+ app/src/main/res/layout-w1240dp/activity_login.xml | 71 --------------------
+ app/src/main/res/layout-w936dp/activity_login.xml  | 78 ----------------------
+ app/src/main/res/layout/activity_login2.xml        | 12 ++++
+ 4 files changed, 49 insertions(+), 151 deletions(-)
+
+2022-10-01T21:30:30+02:00,a723756,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,Ajout ListeActivity et MapsActivity Reste a modifié https://developers.google.com/maps/documentation/android-sdk/start pour que ça fonctionne
+ app/build.gradle                                   |  2 +
+ app/src/main/AndroidManifest.xml                   | 29 ++++++++++--
+ .../covidsafeapplication/ListeActivity.java        | 36 +++++++++++++++
+ .../example/covidsafeapplication/MainActivity.java |  6 ++-
+ .../example/covidsafeapplication/MapsActivity.java | 51 ++++++++++++++++++++++
+ app/src/main/res/layout/activity_liste.xml         | 30 +++++++++++++
+ app/src/main/res/layout/activity_maps.xml          |  9 ++++
+ app/src/main/res/values/strings.xml                |  1 +
+ build.gradle                                       |  1 +
+ 9 files changed, 161 insertions(+), 4 deletions(-)
+
+2022-10-01T21:02:27+02:00,6860cd2,Patryk Krasucki,krasuckipatryk2001@gmail.com,mon push
+ app/build.gradle                                   |  2 ++
+ app/google-services.json                           | 39 ++++++++++++++++++++++
+ .../covidsafeapplication/APITestActivity.java      | 23 +++----------
+ .../covidsafeapplication/LoginActivity.java        |  7 ++++
+ build.gradle                                       |  6 +++-
+ 5 files changed, 58 insertions(+), 19 deletions(-)
+
+2022-10-01T21:00:18+02:00,ec7b3be,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,Ajout photo android fonctionnel
+ app/build.gradle                                   |   1 +
+ app/src/main/AndroidManifest.xml                   |   5 +
+ .../example/covidsafeapplication/CaptureAct.java   |   7 ++
+ .../covidsafeapplication/PhotoActivity.java        | 101 ++++++++-------------
+ app/src/main/res/layout/activity_photo.xml         |  18 ++--
+ 5 files changed, 60 insertions(+), 72 deletions(-)
+
+2022-10-01T19:38:11+02:00,0a9b340,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,Ajout photo android (non fonctionnel)
+ app/src/main/AndroidManifest.xml                   |  1 +
+ .../covidsafeapplication/PhotoActivity.java        | 55 ++++++++++++++++++----
+ 2 files changed, 48 insertions(+), 8 deletions(-)
+
+2022-10-01T18:03:50+02:00,c083274,Patryk Krasucki,krasuckipatryk2001@gmail.com,caca
+ .../covidsafeapplication/APITestActivity.java      | 26 +++++++++++++++++-----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
+
+2022-10-01T16:25:06+02:00,601511a,Patryk Krasucki,krasuckipatryk2001@gmail.com,login et api refait
+ app/src/main/AndroidManifest.xml                   |  18 ++-
+ .../covidsafeapplication/APITestActivity.java      |  89 ++++++++++++++
+ .../covidsafeapplication/ActivityMainBinding.java  | 119 +++++++-----------
+ .../covidsafeapplication/LoginActivity.java        |  48 ++++++++
+ .../example/covidsafeapplication/MainActivity.java |  25 ++--
+ .../covidsafeapplication/data/LoginDataSource.java |  30 -----
+ .../covidsafeapplication/data/LoginRepository.java |  54 --------
+ .../example/covidsafeapplication/data/Result.java  |  48 --------
+ .../data/model/LoggedInUser.java                   |  23 ----
+ .../ui/login/LoggedInUserView.java                 |  17 ---
+ .../ui/login/LoginActivity.java                    | 136 ---------------------
+ .../ui/login/LoginFormState.java                   |  40 ------
+ .../covidsafeapplication/ui/login/LoginResult.java |  31 -----
+ .../ui/login/LoginViewModel.java                   |  70 -----------
+ .../ui/login/LoginViewModelFactory.java            |  26 ----
+ app/src/main/res/layout/activity_apitest.xml       |  35 ++++++
+ app/src/main/res/layout/activity_login.xml         |  71 -----------
+ app/src/main/res/layout/activity_login2.xml        |  66 ++++++++++
+ app/src/main/res/layout/activity_mainbinding.xml   |  41 -------
+ 19 files changed, 314 insertions(+), 673 deletions(-)
+
+2022-09-30T21:40:50+02:00,7264b4a,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,Dark Mode & Activity's
+ app/src/main/AndroidManifest.xml                   |  6 ++
+ .../covidsafeapplication/LocalActivity.java        | 14 ++++
+ .../example/covidsafeapplication/MainActivity.java | 17 +++++
+ .../covidsafeapplication/PhotoActivity.java        | 22 ++++++
+ .../covidsafeapplication/SettingsActivity.java     | 78 ++++++++++++++++++++++
+ app/src/main/res/layout/activity_local.xml         |  9 +++
+ app/src/main/res/layout/activity_main.xml          | 12 ++++
+ app/src/main/res/layout/activity_photo.xml         | 10 +++
+ app/src/main/res/layout/activity_settings.xml      | 19 ++++++
+ app/src/main/res/values-night/colors.xml           | 19 ++++++
+ app/src/main/res/values-night/dimens.xml           |  5 ++
+ app/src/main/res/values-night/strings.xml          | 12 ++++
+ app/src/main/res/values/colors.xml                 |  7 ++
+ 13 files changed, 230 insertions(+)
+
+2022-09-30T15:55:59+02:00,f93e273,~~ Christos ~~,80044056+angelopouloschristos@users.noreply.github.com,Delete .idea directory
+ .idea/compiler.xml |  6 ------
+ .idea/gradle.xml   | 19 -------------------
+ .idea/misc.xml     | 18 ------------------
+ .idea/vcs.xml      |  6 ------
+ 4 files changed, 49 deletions(-)
+
+2022-09-30T15:55:41+02:00,3643277,~~ Christos ~~,80044056+angelopouloschristos@users.noreply.github.com,Update .gitignore
+ .gitignore | 1 +
+ 1 file changed, 1 insertion(+)
+
+2022-09-30T15:52:00+02:00,45799f7,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,Update ActivityMainBinding.java
+ .../covidsafeapplication/ActivityMainBinding.java  | 48 +++++++++-------------
+ 1 file changed, 20 insertions(+), 28 deletions(-)
+
+2022-09-30T11:46:56+02:00,76032f8,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,Ajout de quelques activités
+ app/src/main/java/com/example/covidsafeapplication/MainActivity.java | 1 +
+ 1 file changed, 1 insertion(+)
+
+2022-09-30T11:45:26+02:00,e10ce95,~~ Christos ~~,christos.angelopoulos@helb-prigogine.be,Ajout de quelques activités
+ .idea/.gitignore                                   |   3 -
+ .idea/misc.xml                                     |   4 +-
+ .idea/vcs.xml                                      |   2 +-
+ app/build.gradle                                   |   3 +
+ app/src/main/AndroidManifest.xml                   |  12 +-
+ ...ITestActivity.java => ActivityMainBinding.java} |  12 +-
+ .../example/covidsafeapplication/MainActivity.java |  40 +++++-
+ .../covidsafeapplication/PhotoActivity.java        |  14 +++
+ .../covidsafeapplication/data/LoginDataSource.java |  30 +++++
+ .../covidsafeapplication/data/LoginRepository.java |  54 ++++++++
+ .../example/covidsafeapplication/data/Result.java  |  48 ++++++++
+ .../data/model/LoggedInUser.java                   |  23 ++++
+ .../ui/login/LoggedInUserView.java                 |  17 +++
+ .../ui/login/LoginActivity.java                    | 136 +++++++++++++++++++++
+ .../ui/login/LoginFormState.java                   |  40 ++++++
+ .../covidsafeapplication/ui/login/LoginResult.java |  31 +++++
+ .../ui/login/LoginViewModel.java                   |  70 +++++++++++
+ .../ui/login/LoginViewModelFactory.java            |  26 ++++
+ app/src/main/res/layout-w1240dp/activity_login.xml |  71 +++++++++++
+ app/src/main/res/layout-w936dp/activity_login.xml  |  78 ++++++++++++
+ app/src/main/res/layout/activity_login.xml         |  71 +++++++++++
+ app/src/main/res/layout/activity_main.xml          |  23 ++++
+ ...tivity_apitest.xml => activity_mainbinding.xml} |   9 +-
+ app/src/main/res/layout/activity_photo.xml         |   9 ++
+ app/src/main/res/values-land/dimens.xml            |   3 +
+ app/src/main/res/values-w1240dp/dimens.xml         |   3 +
+ app/src/main/res/values-w600dp/dimens.xml          |   3 +
+ app/src/main/res/values/dimens.xml                 |   5 +
+ app/src/main/res/values/strings.xml                |   9 ++
+ build.gradle                                       |   4 +-
+ 30 files changed, 829 insertions(+), 24 deletions(-)
+
+2022-09-29T22:41:12+02:00,61ba88d,Patryk Krasucki,krasuckipatryk2001@gmail.com,test api qui marche pas
+ app/build.gradle                                   |   7 ++
+ app/src/main/AndroidManifest.xml                   |  10 ++
+ .../covidsafeapplication/APITestActivity.java      | 129 +++++++++++++++++++++
+ .../example/covidsafeapplication/MainActivity.java |  27 ++++-
+ app/src/main/res/layout/activity_apitest.xml       |  36 ++++++
+ app/src/main/res/layout/activity_main.xml          |  12 +-
+ 6 files changed, 215 insertions(+), 6 deletions(-)
+
+2022-09-22T22:47:03+02:00,c3e4ae8,Patryk Krasucki,krasuckipatryk2001@gmail.com,first push 123
+ app/src/main/java/com/example/covidsafeapplication/MainActivity.java | 1 +
+ 1 file changed, 1 insertion(+)
+
+2022-09-22T22:13:18+02:00,1039c62,Patryk Krasucki,krasuckipatryk2001@gmail.com,first push
+ .gitignore                                         |  15 ++
+ .idea/.gitignore                                   |   3 +
+ .idea/compiler.xml                                 |   6 +
+ .idea/gradle.xml                                   |  19 +++
+ .idea/misc.xml                                     |  16 ++
+ .idea/vcs.xml                                      |   6 +
+ app/.gitignore                                     |   1 +
+ app/build.gradle                                   |  38 +++++
+ app/proguard-rules.pro                             |  21 +++
+ .../ExampleInstrumentedTest.java                   |  26 +++
+ app/src/main/AndroidManifest.xml                   |  27 +++
+ .../example/covidsafeapplication/MainActivity.java |  14 ++
+ .../res/drawable-v24/ic_launcher_foreground.xml    |  30 ++++
+ .../main/res/drawable/ic_launcher_background.xml   | 170 +++++++++++++++++++
+ app/src/main/res/layout/activity_main.xml          |  18 ++
+ app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml |   5 +
+ .../res/mipmap-anydpi-v26/ic_launcher_round.xml    |   5 +
+ app/src/main/res/mipmap-hdpi/ic_launcher.webp      | Bin 0 -> 1404 bytes
+ .../main/res/mipmap-hdpi/ic_launcher_round.webp    | Bin 0 -> 2898 bytes
+ app/src/main/res/mipmap-mdpi/ic_launcher.webp      | Bin 0 -> 982 bytes
+ .../main/res/mipmap-mdpi/ic_launcher_round.webp    | Bin 0 -> 1772 bytes
+ app/src/main/res/mipmap-xhdpi/ic_launcher.webp     | Bin 0 -> 1900 bytes
+ .../main/res/mipmap-xhdpi/ic_launcher_round.webp   | Bin 0 -> 3918 bytes
+ app/src/main/res/mipmap-xxhdpi/ic_launcher.webp    | Bin 0 -> 2884 bytes
+ .../main/res/mipmap-xxhdpi/ic_launcher_round.webp  | Bin 0 -> 5914 bytes
+ app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp   | Bin 0 -> 3844 bytes
+ .../main/res/mipmap-xxxhdpi/ic_launcher_round.webp | Bin 0 -> 7778 bytes
+ app/src/main/res/values-night/themes.xml           |  16 ++
+ app/src/main/res/values/colors.xml                 |  10 ++
+ app/src/main/res/values/strings.xml                |   3 +
+ app/src/main/res/values/themes.xml                 |  16 ++
+ app/src/main/res/xml/backup_rules.xml              |  13 ++
+ app/src/main/res/xml/data_extraction_rules.xml     |  19 +++
+ .../covidsafeapplication/ExampleUnitTest.java      |  17 ++
+ build.gradle                                       |   9 +
+ gradle.properties                                  |  21 +++
+ gradle/wrapper/gradle-wrapper.jar                  | Bin 0 -> 59203 bytes
+ gradle/wrapper/gradle-wrapper.properties           |   6 +
+ gradlew                                            | 185 +++++++++++++++++++++
+ gradlew.bat                                        |  89 ++++++++++
+ settings.gradle                                    |  16 ++
+ 41 files changed, 840 insertions(+)

@@ -26,5 +26,6 @@
     <string name="btn_add_new_building">Add new</string>
     <string name="taux_error">Rate is incorrect</string>
     <string name="hum_string">Humidity</string>
+    <string name="export_local_string">Data from Local: </string>
 
 </resources>

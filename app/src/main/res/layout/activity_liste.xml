@@ -15,6 +15,7 @@
         android:contentDescription="Map"
         android:layout_below="@id/logout_btn"
         android:layout_alignLeft="@id/logout_btn"
+        android:layout_marginBottom="5dp"
         app:srcCompat="@android:drawable/ic_dialog_map" />
 
     <Button
@@ -43,29 +44,22 @@
         app:iconSize="30dp"
         app:iconTintMode="add" />
 
-    <Button
-        android:id="@+id/btn_export"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/btn_go_to_profile"
-        android:text="@string/btn_export" />
+
 
     <Button
         android:id="@+id/btn_add_bati"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add new"
-        android:layout_below="@id/btn_export"
-        android:layout_alignRight="@id/btn_export"
+        android:layout_toRightOf="@id/btn_go_to_profile"
+        android:layout_marginTop="30dp"
         android:textSize="14sp" />
 
     <ListView
         android:id="@+id/batiments_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/btn_add_bati"
+        android:layout_below="@id/openMaps"
         android:layout_marginTop="15dp"
         android:background="@color/backgroundColor"
         android:dividerHeight="2dp"

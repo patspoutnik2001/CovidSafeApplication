@@ -56,7 +56,7 @@ public class LocalActivity extends AppCompatActivity {
     ArrayList<Mesure> mesures;
     Local current_local;
     private RequestQueue mQueue;
-
+    private String strForExport="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,13 +185,13 @@ public class LocalActivity extends AppCompatActivity {
                     current_day_sum+= Integer.parseInt(item.taux);
                     cpt++;
                 }
-
             }
             if (cpt!=0) {
                 current_day_sum = current_day_sum / cpt;
             }
-            display_mesures.append(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)-i+"/"+Calendar.getInstance().get(Calendar.MONTH)+": Avarage "+getTypeMesure(t)+ ": " + current_day_sum+ "\n\n");
-
+            String tempStr =Calendar.getInstance().get(Calendar.DAY_OF_MONTH)-i+"/"+Calendar.getInstance().get(Calendar.MONTH)+": Avarage "+getTypeMesure(t)+ ": " + current_day_sum+ "\r\n";
+            strForExport+=(tempStr);
+            display_mesures.append(tempStr);
         }
     }
 
@@ -211,6 +211,8 @@ public class LocalActivity extends AppCompatActivity {
 
     private void goToExport() {
         Intent intent = new Intent(this, ExportActivity.class);
+        intent.putExtra("exportStr", strForExport);
+        intent.putExtra("localStr", current_local.name);
         startActivity(intent);
     }
 }

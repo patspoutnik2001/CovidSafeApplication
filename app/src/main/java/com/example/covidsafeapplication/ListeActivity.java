@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class ListeActivity extends AppCompatActivity {
 
     ImageButton openMaps;
-    Button loguot,btnProfile,btn_export,btn_add_bati;
+    Button loguot,btnProfile,btn_add_bati;
     ListView batiments_listV;
     ArrayList<Batiment> batiments;
 
@@ -40,7 +40,6 @@ public class ListeActivity extends AppCompatActivity {
         btn_add_bati=findViewById(R.id.btn_add_bati);
         btnProfile = findViewById(R.id.btn_go_to_profile);
         loguot =  findViewById(R.id.logout_btn);
-        btn_export = findViewById(R.id.btn_export);
         batiments_listV = findViewById(R.id.batiments_view);
         batiments = new ArrayList<>();
 
@@ -87,14 +86,6 @@ public class ListeActivity extends AppCompatActivity {
             }
         });
 
-
-        btn_export.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ListeActivity.this, ExportActivity.class);
-                startActivity(intent);
-            }
-        });
 
         btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
