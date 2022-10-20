@@ -4,15 +4,26 @@ package com.example.covidsafeapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +33,7 @@ import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.channels.Channels;
 import java.nio.charset.Charset;
 import java.security.Timestamp;
 import java.time.Instant;
@@ -86,23 +98,47 @@ public class ExportActivity extends AppCompatActivity {
     public void ReadPDF(){
         try {
             PdfReader pdfReader = new PdfReader(file.getPath());
-            String stringParse = PdfTextExtractor.getTextFromPage(pdfReader,1).trim();
-            int cpt_char=stringParse.length();
             pdfReader.close();
-            //toast here
-            Toast toast = new Toast(getApplicationContext());
-            toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setText("Creation success, wrote "+cpt_char+" characters");
-            toast.show();
+            //notif here
+            sendNotificationToUser("Success","PDF has been created with success\n\r"+stringFilePath);
+
         }
         catch (Exception e){
             e.printStackTrace();
-            Toast toast = new Toast(getApplicationContext());
-            toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.setText("ERROR: the file might be damaged");
-            toast.show();
+            //add notification
+            sendNotificationToUser("Error PDF","PDF file might be damaged");
+
         }
     }
+
+    private void sendNotificationToUser(String _n, String _d) {
+        createNotificationChannel();
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notif1")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle(_n)
+                .setContentText(_d)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(0, builder.build());
+
+    }
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "PDF Creation";
+            String description = "normal";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("notif1", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
 }
