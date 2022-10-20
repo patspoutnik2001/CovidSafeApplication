@@ -69,6 +69,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            LatLng l = new LatLng(10f,10f);
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 try {
                                     String address = document.get("address").toString();
@@ -80,10 +81,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     batimentArrayList.add(batiment);
 
                                     // add marker on the map
-                                    LatLng latLng = new LatLng(lat, lng);
-                                    // print long and lat on the map
-
-                                    Marker marker = googleMap.addMarker(new MarkerOptions().position(latLng).title(batiment.nomBatiment));
+                                    LatLng latLngMark = new LatLng(lat, lng);
+                                    // the zoom will be on last one added
+                                    l = latLngMark;
+                                    Marker marker = googleMap.addMarker(new MarkerOptions().position(latLngMark).title(batiment.nomBatiment));
                                     markerMap.put(marker, batiment);
 
                                     // if market is clicked, go to the next activity
@@ -112,12 +113,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                             return false;
                                         }
                                     });
-
-
                                 } catch (NumberFormatException e) {
                                     e.printStackTrace();
                                 }
                             }
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(l,10f));
                         }
                     }
                 });
