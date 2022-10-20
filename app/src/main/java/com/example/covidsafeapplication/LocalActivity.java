@@ -169,7 +169,9 @@ public class LocalActivity extends AppCompatActivity {
 
     private void displayMesures() {
         displayOne("1");
+        display_mesures.append("\r\n");
         displayOne("2");
+        display_mesures.append("\r\n");
         displayOne("3");
 
 
@@ -201,11 +203,11 @@ public class LocalActivity extends AppCompatActivity {
     }
     private String getTypeMesure(String t){
         if (t.equals("1"))
-            return "Temp";
-        if (t.equals("2"))
-            return getString(R.string.hum_string);
-        if (t.equals("3"))
             return "CO2";
+        if (t.equals("2"))
+            return "Temp";
+        if (t.equals("3"))
+            return getString(R.string.hum_string);
         return getString(R.string.taux_error);
     }
 
