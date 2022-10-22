@@ -6,12 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,30 +21,25 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.type.DateTime;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 public class LocalActivity extends AppCompatActivity {
@@ -57,6 +51,7 @@ public class LocalActivity extends AppCompatActivity {
     Local current_local;
     private RequestQueue mQueue;
     private String strForExport="";
+    public ArrayList<BarEntry> barArraylist = new ArrayList<BarEntry>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +106,30 @@ public class LocalActivity extends AppCompatActivity {
                 goToExport();
             }
         });
+
+
+
+        BarChart barChart = findViewById(R.id.barChart);
+        getData();
+        BarDataSet barDataSet = new BarDataSet(barArraylist,"Cambo Tutorial");
+        BarData barData = new BarData(barDataSet);
+        barChart.setData(barData);
+        //color bar data set
+        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        //text color
+        barDataSet.setValueTextColor(Color.BLACK);
+        //settting text size
+        barDataSet.setValueTextSize(16f);
+        barChart.getDescription().setEnabled(true);
+    }
+
+    private void getData() {
+
+        barArraylist.add(new BarEntry(2f,10));
+        barArraylist.add(new BarEntry(3f,20));
+        barArraylist.add(new BarEntry(4f,30));
+        barArraylist.add(new BarEntry(5f,40));
+        barArraylist.add(new BarEntry(6f,50));
     }
 
     private void initMesures() {

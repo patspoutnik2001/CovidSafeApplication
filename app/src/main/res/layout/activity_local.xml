@@ -34,13 +34,22 @@
 
     <TextView
         android:id="@+id/display_all_mesures"
-        android:scrollbars = "vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="20dp"
+        android:layout_height="462dp"
         android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:layout_marginTop="200dp"
-        android:layout_alignParentBottom="true"/>
+        android:layout_marginBottom="400dp"
+        android:scrollbars="vertical"
+        android:text=""
+        android:textSize="20dp" />
+
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/barChart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
 </RelativeLayout>
