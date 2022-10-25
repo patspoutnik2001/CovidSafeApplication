@@ -1,55 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_vertical"
-    tools:context=".LocalActivity">
+    android:fillViewport="true"
+    android:scrollbars="vertical"
+    tools:context=".LocalActivity"
+    >
 
-    <ImageButton
-        android:id="@+id/exportPDF"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="exportBtn"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="50dp"
-        android:minHeight="48dp"
-        app:srcCompat="@android:drawable/stat_sys_download" />
-
-    <TextView
-        android:id="@+id/tv_display_local_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="100dp"
-        android:text="name here"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/display_all_mesures"
-        android:layout_width="wrap_content"
-        android:layout_height="462dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="200dp"
-        android:layout_marginBottom="400dp"
-        android:scrollbars="vertical"
-        android:text=""
-        android:textSize="20dp" />
-
-
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/barChart"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/exportPDF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="exportBtn"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp"
+            android:layout_marginRight="50dp"
+            android:minHeight="48dp"
+            android:layout_gravity="right"
+            app:srcCompat="@android:drawable/stat_sys_download" />
+
+        <TextView
+            android:id="@+id/tv_display_local_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="50dp"
+            android:layout_above="@id/display_all_mesures"
+            android:text="name here"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/display_all_mesures"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:scrollbars="vertical"
+            android:text=""
+            android:textSize="20dp" />
 
 
-</RelativeLayout>
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barChart"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:layout_gravity="center"
+            android:layout_below="@id/display_all_mesures"/>
+
+
+    </LinearLayout>
+
+</ScrollView>
+
