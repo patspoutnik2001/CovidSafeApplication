@@ -52,6 +52,9 @@ public class LocalActivity extends AppCompatActivity {
     private RequestQueue mQueue;
     private String strForExport="";
     public ArrayList<BarEntry> barArraylist = new ArrayList<BarEntry>();
+    BarData barData;
+    BarChart barChart;
+    BarDataSet barDataSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +100,7 @@ public class LocalActivity extends AppCompatActivity {
         display_name = findViewById(R.id.tv_display_local_name);
         display_mesures = findViewById(R.id.display_all_mesures);
         display_mesures.setMovementMethod(new ScrollingMovementMethod());
+        barChart = findViewById(R.id.barChart);
 
 
 
@@ -109,27 +113,7 @@ public class LocalActivity extends AppCompatActivity {
 
 
 
-        BarChart barChart = findViewById(R.id.barChart);
-        getData();
-        BarDataSet barDataSet = new BarDataSet(barArraylist,"Cambo Tutorial");
-        BarData barData = new BarData(barDataSet);
-        barChart.setData(barData);
-        //color bar data set
-        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        //text color
-        barDataSet.setValueTextColor(Color.BLACK);
-        //settting text size
-        barDataSet.setValueTextSize(16f);
-        barChart.getDescription().setEnabled(true);
-    }
 
-    private void getData() {
-
-        barArraylist.add(new BarEntry(2f,10));
-        barArraylist.add(new BarEntry(3f,20));
-        barArraylist.add(new BarEntry(4f,30));
-        barArraylist.add(new BarEntry(5f,40));
-        barArraylist.add(new BarEntry(6f,50));
     }
 
     private void initMesures() {
@@ -186,13 +170,27 @@ public class LocalActivity extends AppCompatActivity {
 
     }
 
+    private void makeChart() {
+        barDataSet = new BarDataSet(barArraylist,"CO2");
+        barData = new BarData(barDataSet);
+        //barChart.setData(barData);
+        //color bar data set
+        barChart.setData(barData);
+        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        //text color
+        barDataSet.setValueTextColor(Color.BLACK);
+        //settting text size
+        barDataSet.setValueTextSize(16f);
+        barChart.getDescription().setEnabled(true);
+    }
+
     private void displayMesures() {
-        displayOne("1");
+        //displayOne("1");
         display_mesures.append("\r\n");
-        displayOne("2");
+        //displayOne("2");
         display_mesures.append("\r\n");
         displayOne("3");
-
+        makeChart();
 
     }
 
@@ -213,6 +211,7 @@ public class LocalActivity extends AppCompatActivity {
             String tempStr =Calendar.getInstance().get(Calendar.DAY_OF_MONTH)-i+"/"+Calendar.getInstance().get(Calendar.MONTH)+": Avarage "+getTypeMesure(t)+ ": " + current_day_sum+ "\r\n";
             strForExport+=(tempStr);
             display_mesures.append(tempStr);
+            barArraylist.add(new BarEntry((float) i,(float)current_day_sum));
         }
     }
 
