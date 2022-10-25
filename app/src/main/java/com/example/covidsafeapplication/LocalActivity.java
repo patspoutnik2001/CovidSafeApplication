@@ -12,6 +12,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,7 +49,9 @@ public class LocalActivity extends AppCompatActivity {
     ImageButton exportPDF;
     TextView display_name, display_mesures;
     ArrayList<JSONObject> mesures_list;
-    ArrayList<Mesure> mesures;
+    ArrayList<Mesure> mes_temp;
+    ArrayList<Mesure> mes_hum;
+    ArrayList<Mesure> mes_co2;
     Local current_local;
     private RequestQueue mQueue;
     private String strForExport="";
@@ -55,14 +59,18 @@ public class LocalActivity extends AppCompatActivity {
     BarData barData;
     BarChart barChart;
     BarDataSet barDataSet;
+    Spinner filter_spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_local);
         mesures_list = new ArrayList<>();
-        mesures = new ArrayList<>();
+        mes_temp = new ArrayList<>();
+        mes_hum = new ArrayList<>();
+        mes_co2 = new ArrayList<>();
         mQueue = Volley.newRequestQueue(this);
+        filter_spinner=findViewById(R.id.filter_spinner);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -126,7 +134,9 @@ public class LocalActivity extends AppCompatActivity {
                             JSONArray jsonArray = response.getJSONArray("mesures");
                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss", Locale.ENGLISH);
                             System.out.println(jsonArray.length());
-                            mesures.clear();
+                            mes_co2.clear();
+                            mes_hum.clear();
+                            mes_temp.clear();
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject mes = jsonArray.getJSONObject(i);
                                 //String dateStr = mes.getString("date_");
@@ -145,13 +155,20 @@ public class LocalActivity extends AppCompatActivity {
                                 if (idL.equals(current_local.id + "")) {
                                     //mesures_list.add(mes);
                                     Mesure mesure = new Mesure(idMesure,tauxMesure,typeMesure,idL,date);
-                                    mesures.add(mesure);
+
+                                    if (mesure.typeData.equals("1"))
+                                        mes_co2.add(mesure);
+                                    else if (mesure.typeData.equals("2"))
+                                        mes_temp.add(mesure);
+                                    else if (mesure.typeData.equals("3"))
+                                        mes_hum.add(mesure);
+
                                     //display_mesures.append(idMesure + ", " + tauxMesure + ", " + getTypeMesure(typeMesure) + ", " + date.toString() + ", " + idL + "\n\n");
                                 }
                             }
                             Toast.makeText(getApplicationContext(), "All data fetched", Toast.LENGTH_SHORT).show();
                             //display_mesures.setText(mesures_list.toString());
-                            displayMesures();
+                            displayMesures(filter_spinner.getSelectedItem().toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (ParseException e) {
@@ -171,7 +188,7 @@ public class LocalActivity extends AppCompatActivity {
     }
 
     private void makeChart() {
-        barDataSet = new BarDataSet(barArraylist,"CO2");
+        barDataSet = new BarDataSet(barArraylist,"Taux");
         barData = new BarData(barDataSet);
         //barChart.setData(barData);
         //color bar data set
@@ -184,35 +201,54 @@ public class LocalActivity extends AppCompatActivity {
         barChart.getDescription().setEnabled(true);
     }
 
-    private void displayMesures() {
-        //displayOne("1");
-        display_mesures.append("\r\n");
-        //displayOne("2");
-        display_mesures.append("\r\n");
-        displayOne("3");
+    private void displayMesures(String _type) {
+
+        if (_type=="Co2")
+            _type="1";
+        if (_type=="Temperature")
+            _type="2";
+        if (_type==getString(R.string.hum_string))
+            _type="3";
+
+        barChart.clear();
+        display_mesures.setText("");
+        displayOne(_type);
         makeChart();
 
     }
 
-    private void displayOne(String t) {
+    private void displayOne(String _t) {
         for (int i = 0; i < 7; i++) {
             int cpt=0;
             int current_day_sum=0;
-            for (Mesure item:mesures) {
+            for (Mesure item:getMesureList(_t)) {
                 //System.out.println(item.id+" : "+Calendar.getInstance().get(Calendar.DATE) + " >< "+item.date.get(Calendar.DATE));
-                if (Calendar.getInstance().get(Calendar.DATE)-i==item.date.get(Calendar.DATE) && item.typeData.equals(t)) {
+                if (Calendar.getInstance().get(Calendar.DATE)-i==item.date.get(Calendar.DATE)) {
                     current_day_sum+= Integer.parseInt(item.taux);
                     cpt++;
                 }
             }
+
             if (cpt!=0) {
                 current_day_sum = current_day_sum / cpt;
             }
-            String tempStr =Calendar.getInstance().get(Calendar.DAY_OF_MONTH)-i+"/"+Calendar.getInstance().get(Calendar.MONTH)+": Avarage "+getTypeMesure(t)+ ": " + current_day_sum+ "\r\n";
+
+            String tempStr =Calendar.getInstance().get(Calendar.DAY_OF_MONTH)-i+"/"+Calendar.getInstance().get(Calendar.MONTH)+": Avarage "+getTypeMesure(_t)+ ": " + current_day_sum+ "\r\n";
             strForExport+=(tempStr);
             display_mesures.append(tempStr);
             barArraylist.add(new BarEntry((float) i,(float)current_day_sum));
         }
+    }
+
+    private ArrayList<Mesure> getMesureList(String t) {
+        if (t=="1")
+            return mes_co2;
+        if (t=="2")
+            return mes_temp;
+        if (t=="3")
+            return mes_hum;
+
+        return new ArrayList<>();
     }
 
     private void goToListBat() {
