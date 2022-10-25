@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -71,6 +72,17 @@ public class LocalActivity extends AppCompatActivity {
         mes_co2 = new ArrayList<>();
         mQueue = Volley.newRequestQueue(this);
         filter_spinner=findViewById(R.id.filter_spinner);
+        filter_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                displayMesures(filter_spinner.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -188,12 +200,12 @@ public class LocalActivity extends AppCompatActivity {
     }
 
     private void makeChart() {
-        barDataSet = new BarDataSet(barArraylist,"Taux");
+        barDataSet = new BarDataSet(barArraylist,"");
         barData = new BarData(barDataSet);
         //barChart.setData(barData);
         //color bar data set
         barChart.setData(barData);
-        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        barDataSet.setColors(ColorTemplate.PASTEL_COLORS);
         //text color
         barDataSet.setValueTextColor(Color.BLACK);
         //settting text size
@@ -203,13 +215,18 @@ public class LocalActivity extends AppCompatActivity {
 
     private void displayMesures(String _type) {
 
-        if (_type=="Co2")
+        if (_type.equals("Co2"))
             _type="1";
-        if (_type=="Temperature")
+        if (_type.equals("Temperature"))
             _type="2";
-        if (_type==getString(R.string.hum_string))
+        if (_type.equals(getString(R.string.hum_string)))
             _type="3";
 
+        System.out.println(_type);
+        if (barData!=null) {
+            barDataSet.clear();
+            barData.clearValues();
+        }
         barChart.clear();
         display_mesures.setText("");
         displayOne(_type);
@@ -232,7 +249,6 @@ public class LocalActivity extends AppCompatActivity {
             if (cpt!=0) {
                 current_day_sum = current_day_sum / cpt;
             }
-
             String tempStr =Calendar.getInstance().get(Calendar.DAY_OF_MONTH)-i+"/"+Calendar.getInstance().get(Calendar.MONTH)+": Avarage "+getTypeMesure(_t)+ ": " + current_day_sum+ "\r\n";
             strForExport+=(tempStr);
             display_mesures.append(tempStr);
