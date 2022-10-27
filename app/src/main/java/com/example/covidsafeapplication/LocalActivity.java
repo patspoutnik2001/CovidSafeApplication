@@ -5,13 +5,27 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Picture;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.method.ScrollingMovementMethod;
@@ -40,19 +54,25 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfReader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Random;
 
 public class LocalActivity extends AppCompatActivity {
 
@@ -72,10 +92,15 @@ public class LocalActivity extends AppCompatActivity {
     Spinner filter_spinner;
     Button export_chart;
 
+    private String stringFilePath;
+    private File file;
+    String exportStr="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_local);
+        exportStr=getResources().getString(R.string.export_local_string);
         mesures_list = new ArrayList<>();
         mes_temp = new ArrayList<>();
         mes_hum = new ArrayList<>();
@@ -146,26 +171,7 @@ public class LocalActivity extends AppCompatActivity {
         export_chart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bitmap bitmap;
-                barChart.setDrawingCacheEnabled(true);
-                barDataSet.setValueTextColor(Color.WHITE);
-                bitmap = Bitmap.createBitmap(barChart.getDrawingCache());
-                barDataSet.setValueTextColor(Color.BLACK);
-                barChart.setDrawingCacheEnabled(false);
 
-                String fname = "Image.jpg";
-                String stringFilePath=Environment.getExternalStorageDirectory().getPath() + "/Download/"+fname;
-                File file= new File(stringFilePath);
-                if (file.exists()) file.delete();
-                Log.i("LOAD", file.getAbsolutePath());
-                try {
-                    FileOutputStream out = new FileOutputStream(file);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-                    out.flush();
-                    out.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
         });
 
@@ -320,9 +326,147 @@ public class LocalActivity extends AppCompatActivity {
     }
 
     private void goToExport() {
-        Intent intent = new Intent(this, ExportActivity.class);
-        intent.putExtra("exportStr", strForExport);
-        intent.putExtra("localStr", current_local.name);
-        startActivity(intent);
+        exportStr+= current_local.name+"\r\n";
+        exportStr += strForExport;
+        //TODO: fix les 7 permeieres semaines qui sont 0 -> exporter et regarder pour plus de info
+        int number = new Random().nextInt(100000);
+        stringFilePath=Environment.getExternalStorageDirectory().getPath() + "/Download/CovidDocs/"+current_local.name;
+        File FPath = new File(stringFilePath);
+        if (!FPath.exists()) {
+            if (!FPath.mkdir()) {
+                FPath.mkdirs();
+            }
+        }
+        stringFilePath+="/"+current_local.name+"-"+number+".pdf";
+        file= new File(stringFilePath);
+
+        PdfDocument pdfDocument = new PdfDocument();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(300, 600, 1).create();
+        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+
+        Bitmap bitmap;
+        barChart.setDrawingCacheEnabled(true);
+        barDataSet.setValueTextColor(Color.WHITE);
+        bitmap = Bitmap.createBitmap(barChart.getDrawingCache());
+        barDataSet.setValueTextColor(Color.BLACK);
+        barChart.setDrawingCacheEnabled(false);
+
+        Paint paint = new Paint();
+        //40 char max sur une ligne?
+        int x = 10, y = 25;
+
+        for (String line:exportStr.split("\r\n")){//take each line from string
+            page.getCanvas().drawText(line,x,y, paint);
+            y+=paint.descent()-paint.ascent();
+        }
+
+        Picture pic_chart = new Picture();
+        Canvas canvas = pic_chart.beginRecording(bitmap.getWidth(), bitmap.getHeight());
+        canvas.drawBitmap(bitmap, null, new RectF(0f, 200f,  300f,  500f), null);
+        pic_chart.endRecording();
+
+        page.getCanvas().drawPicture(pic_chart);
+
+
+        pdfDocument.finishPage(page);//fin de la page
+        try {
+            pdfDocument.writeTo(new FileOutputStream(file)); // writing the file into the memory
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        pdfDocument.close();//closing the file
+        ReadPDF();
+        //exportChart();
+    }
+
+    private void exportChart() {
+        Bitmap bitmap;
+        barChart.setDrawingCacheEnabled(true);
+        barDataSet.setValueTextColor(Color.WHITE);
+        bitmap = Bitmap.createBitmap(barChart.getDrawingCache());
+        barDataSet.setValueTextColor(Color.BLACK);
+        barChart.setDrawingCacheEnabled(false);
+
+        String fname = "chart-"+display_name.getText()+".jpg";
+        String stringFilePath=Environment.getExternalStorageDirectory().getPath() + "/Download/"+fname;
+        File file= new File(stringFilePath);
+        if (file.exists()) file.delete();
+        Log.i("LOAD", file.getAbsolutePath());
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+            sendNotificationToUser("Success","Click to open",stringFilePath,"image/*");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            sendNotificationToUser("Error PDF","Image file might be damaged",stringFilePath,"image/*");
+
+
+        }
+    }
+
+    public void ReadPDF(){
+        try {
+            PdfReader pdfReader = new PdfReader(file.getPath());
+            pdfReader.close();
+            //notif here
+            sendNotificationToUser("Success","PDF has been created with success",stringFilePath,"application/pdf");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Error while creating PDF", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private void sendNotificationToUser(String _n, String _d,String _filePath,String _type) {
+        createNotificationChannel();
+
+        Intent intent = new Intent();
+        intent.setAction(android.content.Intent.ACTION_VIEW);
+
+        File file = new File(_filePath); // set your image path
+
+        Uri uri = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", file);
+        intent.setDataAndType(uri, _type);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Bitmap bm = BitmapFactory.decodeFile(_filePath);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notif1")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle(_n)
+                .setContentText(_d)
+                .setContentIntent(pIntent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(0, builder.build());
+
+
+
+
+    }
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "PDF Creation";
+            String description = "normal";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("notif1", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+
+
     }
 }

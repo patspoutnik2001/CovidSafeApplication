@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.app.NotificationChannel;
@@ -14,6 +15,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
@@ -63,8 +66,18 @@ public class ExportActivity extends AppCompatActivity {
         //creation of random int for file name
         int number = new Random().nextInt(100000);
 
-        stringFilePath=Environment.getExternalStorageDirectory().getPath() + "/Download/"+temp_localname+"-"+number+".pdf";
-         file= new File(stringFilePath);
+
+        //verification if folder exists
+        stringFilePath=Environment.getExternalStorageDirectory().getPath() + "/Download/CovidDocs";
+        File FPath = new File(stringFilePath);
+        if (!FPath.exists()) {
+            if (!FPath.mkdir()) {
+                FPath.mkdirs();
+            }
+        }
+
+        stringFilePath+="/"+temp_localname+"-"+number+".pdf";
+        file= new File(stringFilePath);
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
@@ -109,20 +122,38 @@ public class ExportActivity extends AppCompatActivity {
             sendNotificationToUser("Error PDF","PDF file might be damaged");
 
         }
+
     }
 
     private void sendNotificationToUser(String _n, String _d) {
         createNotificationChannel();
 
+        Intent intent = new Intent();
+        intent.setAction(android.content.Intent.ACTION_VIEW);
+
+        File file = new File(stringFilePath); // set your image path
+
+        Uri uri = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", file);
+        intent.setDataAndType(uri, "application/pdf");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Bitmap bm = BitmapFactory.decodeFile(stringFilePath);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notif1")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(_n)
                 .setContentText(_d)
+                .setContentIntent(pIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(0, builder.build());
+
+
+
 
     }
     private void createNotificationChannel() {
@@ -139,6 +170,9 @@ public class ExportActivity extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+
+
+
     }
 
 }
