@@ -4,14 +4,21 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -38,6 +45,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,6 +70,7 @@ public class LocalActivity extends AppCompatActivity {
     BarChart barChart;
     BarDataSet barDataSet;
     Spinner filter_spinner;
+    Button export_chart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +127,7 @@ public class LocalActivity extends AppCompatActivity {
         }
 
         exportPDF = findViewById(R.id.exportPDF);
+        export_chart=findViewById(R.id.export_chart);
         display_name = findViewById(R.id.tv_display_local_name);
         display_mesures = findViewById(R.id.display_all_mesures);
         display_mesures.setMovementMethod(new ScrollingMovementMethod());
@@ -132,7 +143,34 @@ public class LocalActivity extends AppCompatActivity {
         });
 
 
+        export_chart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bitmap bitmap;
+                barChart.setDrawingCacheEnabled(true);
+                barDataSet.setValueTextColor(Color.WHITE);
+                bitmap = Bitmap.createBitmap(barChart.getDrawingCache());
+                barDataSet.setValueTextColor(Color.BLACK);
+                barChart.setDrawingCacheEnabled(false);
 
+                String fname = "Image.jpg";
+                String stringFilePath=Environment.getExternalStorageDirectory().getPath() + "/Download/"+fname;
+                File file= new File(stringFilePath);
+                if (file.exists()) file.delete();
+                Log.i("LOAD", file.getAbsolutePath());
+                try {
+                    FileOutputStream out = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                    out.flush();
+                    out.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
     }
 
