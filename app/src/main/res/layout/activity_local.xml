@@ -15,12 +15,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/export_chart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="export chart" />
-
         <ImageButton
             android:id="@+id/exportPDF"
             android:layout_width="wrap_content"

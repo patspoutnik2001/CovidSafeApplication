@@ -90,17 +90,14 @@ public class LocalActivity extends AppCompatActivity {
     BarChart barChart;
     BarDataSet barDataSet;
     Spinner filter_spinner;
-    Button export_chart;
 
     private String stringFilePath;
     private File file;
-    String exportStr="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_local);
-        exportStr=getResources().getString(R.string.export_local_string);
         mesures_list = new ArrayList<>();
         mes_temp = new ArrayList<>();
         mes_hum = new ArrayList<>();
@@ -152,7 +149,6 @@ public class LocalActivity extends AppCompatActivity {
         }
 
         exportPDF = findViewById(R.id.exportPDF);
-        export_chart=findViewById(R.id.export_chart);
         display_name = findViewById(R.id.tv_display_local_name);
         display_mesures = findViewById(R.id.display_all_mesures);
         display_mesures.setMovementMethod(new ScrollingMovementMethod());
@@ -168,12 +164,6 @@ public class LocalActivity extends AppCompatActivity {
         });
 
 
-        export_chart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
@@ -271,6 +261,7 @@ public class LocalActivity extends AppCompatActivity {
             barDataSet.clear();
             barData.clearValues();
         }
+        //strForExport="";
         barChart.clear();
         display_mesures.setText("");
         displayOne(_type);
@@ -294,7 +285,7 @@ public class LocalActivity extends AppCompatActivity {
                 current_day_sum = current_day_sum / cpt;
             }
             String tempStr =Calendar.getInstance().get(Calendar.DAY_OF_MONTH)-i+"/"+Calendar.getInstance().get(Calendar.MONTH)+": Avarage "+getTypeMesure(_t)+ ": " + current_day_sum+ "\r\n";
-            strForExport+=(tempStr);
+            //strForExport+=(tempStr);
             display_mesures.append(tempStr);
             barArraylist.add(new BarEntry((float) i,(float)current_day_sum));
         }
@@ -326,8 +317,8 @@ public class LocalActivity extends AppCompatActivity {
     }
 
     private void goToExport() {
-        exportStr+= current_local.name+"\r\n";
-        exportStr += strForExport;
+        //exportStr+= current_local.name+"\r\n";
+        //exportStr += strForExport;
         //TODO: fix les 7 permeieres semaines qui sont 0 -> exporter et regarder pour plus de info
         int number = new Random().nextInt(100000);
         stringFilePath=Environment.getExternalStorageDirectory().getPath() + "/Download/CovidDocs/"+current_local.name;
@@ -354,8 +345,9 @@ public class LocalActivity extends AppCompatActivity {
         Paint paint = new Paint();
         //40 char max sur une ligne?
         int x = 10, y = 25;
+        StringBuilder _sb = new StringBuilder(getResources().getString(R.string.export_local_string)+current_local.name+"\r\n"+display_mesures.getText().toString());
 
-        for (String line:exportStr.split("\r\n")){//take each line from string
+        for (String line:_sb.toString().split("\r\n")){//take each line from string
             page.getCanvas().drawText(line,x,y, paint);
             y+=paint.descent()-paint.ascent();
         }
