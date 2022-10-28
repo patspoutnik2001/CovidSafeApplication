@@ -82,6 +82,7 @@ public class LocalActivity extends AppCompatActivity {
     ArrayList<Mesure> mes_temp;
     ArrayList<Mesure> mes_hum;
     ArrayList<Mesure> mes_co2;
+    Mesure[] last_mes;
     Local current_local;
     private RequestQueue mQueue;
     private String strForExport="";
@@ -102,12 +103,15 @@ public class LocalActivity extends AppCompatActivity {
         mes_temp = new ArrayList<>();
         mes_hum = new ArrayList<>();
         mes_co2 = new ArrayList<>();
+        last_mes = new Mesure[3];
         mQueue = Volley.newRequestQueue(this);
         filter_spinner=findViewById(R.id.filter_spinner);
         filter_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 displayMesures(filter_spinner.getSelectedItem().toString());
+                //displayLastMesure(filter_spinner.getSelectedItem().toString());
+//TODO: quand je decomante ca bug :<
             }
 
             @Override
@@ -136,6 +140,8 @@ public class LocalActivity extends AppCompatActivity {
                                         current_local = new Local(bat, idLocal, name_local);
                                         display_name.setText(current_local.name);
                                         initMesures();
+                                        initLastMesures();
+
                                     }
                                 }
                                 if (current_local == null) {
@@ -168,6 +174,83 @@ public class LocalActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
+    }
+
+    private void initLastMesures() {
+        String url = "https://patryk.alwaysdata.net/CovidSafeRoom/api2.php";
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("mesures");
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss", Locale.ENGLISH);
+                            System.out.println(jsonArray.length());
+                            last_mes=new Mesure[3];
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject mes = jsonArray.getJSONObject(i);
+                                //String dateStr = mes.getString("date_");
+                                Calendar date = Calendar.getInstance();
+
+                                date.setTime(sdf.parse(mes.getString("max(date_)")));
+                                String idMesure = mes.getString("idMesure").trim();
+                                //System.out.println("id mesure: "+idMesure);
+                                //int id=Integer.getInteger(idMesure);
+                                String tauxMesure = mes.getString("taux").trim();
+                                //int taux= Integer.getInteger(tauxMesure);
+                                String typeMesure = mes.getString("typeData").trim();
+                                //int type= Integer.getInteger(typeMesure);
+                                String idL = mes.getString("idLocal").trim();
+                                //int iL = Integer.getInteger(idL);
+                                if (idL.equals(current_local.id + "")) {
+                                    //mesures_list.add(mes);
+                                    Mesure mesure = new Mesure(idMesure,tauxMesure,typeMesure,idL,date);
+
+                                    if (mesure.typeData.equals("1"))
+                                        last_mes[0]=mesure;
+                                    else if (mesure.typeData.equals("2"))
+                                        last_mes[1]=mesure;
+                                    else if (mesure.typeData.equals("3"))
+                                        last_mes[2]=mesure;
+
+                                    //display_mesures.append(idMesure + ", " + tauxMesure + ", " + getTypeMesure(typeMesure) + ", " + date.toString() + ", " + idL + "\n\n");
+                                }
+                            }
+                            //Toast.makeText(getApplicationContext(), "All data fetched", Toast.LENGTH_SHORT).show();
+                            //display_mesures.setText(mesures_list.toString());
+                            displayLastMesure(filter_spinner.getSelectedItem().toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        mQueue.add(request);
+    }
+
+    private void displayLastMesure(String _type) {
+        String tempStr ="Couldnt find the last mesure-> "+getTypeMesure(_type) +"\r\n";
+        //TODO: add to string file^^^
+        if (_type.equals("Co2")){
+            tempStr="Last one: "+last_mes[0].taux+" at "+last_mes[0].date.getTime()+"\r\n";
+        }
+        if (_type.equals("Temperature")) {
+            tempStr="Last one: "+last_mes[1].taux+" at "+last_mes[1].date.getTime()+"\r\n";
+
+        }
+        if (_type.equals(getString(R.string.hum_string))) {
+            tempStr="Last one: "+last_mes[2].taux+" at "+last_mes[2].date.getTime()+"\r\n";
+
+        }
+
+        display_mesures.append(tempStr);
+        System.out.println(tempStr);
     }
 
     private void initMesures() {
@@ -212,7 +295,7 @@ public class LocalActivity extends AppCompatActivity {
                                     //display_mesures.append(idMesure + ", " + tauxMesure + ", " + getTypeMesure(typeMesure) + ", " + date.toString() + ", " + idL + "\n\n");
                                 }
                             }
-                            Toast.makeText(getApplicationContext(), "All data fetched", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(), "All data fetched", Toast.LENGTH_SHORT).show();
                             //display_mesures.setText(mesures_list.toString());
                             displayMesures(filter_spinner.getSelectedItem().toString());
                         } catch (JSONException e) {
@@ -227,8 +310,8 @@ public class LocalActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         });
-
         mQueue.add(request);
+
 
 
     }
@@ -274,7 +357,6 @@ public class LocalActivity extends AppCompatActivity {
             int cpt=0;
             int current_day_sum=0;
             for (Mesure item:getMesureList(_t)) {
-                //System.out.println(item.id+" : "+Calendar.getInstance().get(Calendar.DATE) + " >< "+item.date.get(Calendar.DATE));
                 if (Calendar.getInstance().get(Calendar.DATE)-i==item.date.get(Calendar.DATE)) {
                     current_day_sum+= Integer.parseInt(item.taux);
                     cpt++;
@@ -317,9 +399,6 @@ public class LocalActivity extends AppCompatActivity {
     }
 
     private void goToExport() {
-        //exportStr+= current_local.name+"\r\n";
-        //exportStr += strForExport;
-        //TODO: fix les 7 permeieres semaines qui sont 0 -> exporter et regarder pour plus de info
         int number = new Random().nextInt(100000);
         stringFilePath=Environment.getExternalStorageDirectory().getPath() + "/Download/CovidDocs/"+current_local.name;
         File FPath = new File(stringFilePath);
@@ -372,33 +451,6 @@ public class LocalActivity extends AppCompatActivity {
         //exportChart();
     }
 
-    private void exportChart() {
-        Bitmap bitmap;
-        barChart.setDrawingCacheEnabled(true);
-        barDataSet.setValueTextColor(Color.WHITE);
-        bitmap = Bitmap.createBitmap(barChart.getDrawingCache());
-        barDataSet.setValueTextColor(Color.BLACK);
-        barChart.setDrawingCacheEnabled(false);
-
-        String fname = "chart-"+display_name.getText()+".jpg";
-        String stringFilePath=Environment.getExternalStorageDirectory().getPath() + "/Download/"+fname;
-        File file= new File(stringFilePath);
-        if (file.exists()) file.delete();
-        Log.i("LOAD", file.getAbsolutePath());
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-            out.flush();
-            out.close();
-            sendNotificationToUser("Success","Click to open",stringFilePath,"image/*");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            sendNotificationToUser("Error PDF","Image file might be damaged",stringFilePath,"image/*");
-
-
-        }
-    }
 
     public void ReadPDF(){
         try {
