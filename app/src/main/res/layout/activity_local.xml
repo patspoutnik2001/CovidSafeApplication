@@ -19,30 +19,31 @@
             android:id="@+id/exportPDF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="exportBtn"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp"
-            android:layout_marginRight="50dp"
-            android:minHeight="48dp"
             android:layout_gravity="right"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="50dp"
+            android:contentDescription="exportBtn"
+            android:minHeight="48dp"
             app:srcCompat="@android:drawable/stat_sys_download" />
 
         <TextView
             android:id="@+id/tv_display_local_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@id/display_all_mesures"
             android:layout_gravity="center"
             android:layout_marginBottom="50dp"
-            android:layout_above="@id/display_all_mesures"
             android:text="name here"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
 
         <Spinner
             android:id="@+id/filter_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#CCCCCC"
+            android:background="@color/purple_500"
             android:entries="@array/type_array"
             android:minHeight="48dp" />
 
@@ -56,17 +57,18 @@
             android:layout_gravity="center"
             android:scrollbars="vertical"
             android:text=""
+            android:textAlignment="center"
             android:textSize="20dp" />
-
-
 
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/barChart"
             android:layout_width="match_parent"
             android:layout_height="450dp"
-            android:layout_gravity="center"
-            android:layout_below="@id/display_all_mesures"/>
+            android:layout_below="@id/display_all_mesures"
+            android:layout_gravity="center">
+
+        </com.github.mikephil.charting.charts.BarChart>
 
 
     </LinearLayout>

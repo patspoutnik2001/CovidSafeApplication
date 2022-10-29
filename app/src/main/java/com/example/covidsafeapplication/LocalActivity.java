@@ -13,6 +13,7 @@ import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -34,6 +35,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -92,6 +95,8 @@ public class LocalActivity extends AppCompatActivity {
     BarDataSet barDataSet;
     Spinner filter_spinner;
 
+    boolean found_last_mes,found_all_mes=false;
+
     private String stringFilePath;
     private File file;
 
@@ -105,20 +110,7 @@ public class LocalActivity extends AppCompatActivity {
         mes_co2 = new ArrayList<>();
         last_mes = new Mesure[3];
         mQueue = Volley.newRequestQueue(this);
-        filter_spinner=findViewById(R.id.filter_spinner);
-        filter_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                displayMesures(filter_spinner.getSelectedItem().toString());
-                //displayLastMesure(filter_spinner.getSelectedItem().toString());
-//TODO: quand je decomante ca bug :<
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+        filter_spinner = findViewById(R.id.filter_spinner);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -140,7 +132,7 @@ public class LocalActivity extends AppCompatActivity {
                                         current_local = new Local(bat, idLocal, name_local);
                                         display_name.setText(current_local.name);
                                         initMesures();
-                                        initLastMesures();
+                                        //initLastMesures();
 
                                     }
                                 }
@@ -174,7 +166,24 @@ public class LocalActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
+
+        filter_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (found_all_mes)
+                    displayMesures(filter_spinner.getSelectedItem().toString());
+                if (found_last_mes)
+                    displayLastMesure(filter_spinner.getSelectedItem().toString());
+                //TODO: quand je decomante ca bug :<
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
+
 
     private void initLastMesures() {
         String url = "https://patryk.alwaysdata.net/CovidSafeRoom/api2.php";
@@ -207,17 +216,18 @@ public class LocalActivity extends AppCompatActivity {
                                     Mesure mesure = new Mesure(idMesure,tauxMesure,typeMesure,idL,date);
 
                                     if (mesure.typeData.equals("1"))
-                                        last_mes[0]=mesure;
-                                    else if (mesure.typeData.equals("2"))
                                         last_mes[1]=mesure;
-                                    else if (mesure.typeData.equals("3"))
+                                    else if (mesure.typeData.equals("2"))
                                         last_mes[2]=mesure;
+                                    else if (mesure.typeData.equals("3"))
+                                        last_mes[0]=mesure;
 
                                     //display_mesures.append(idMesure + ", " + tauxMesure + ", " + getTypeMesure(typeMesure) + ", " + date.toString() + ", " + idL + "\n\n");
                                 }
                             }
                             //Toast.makeText(getApplicationContext(), "All data fetched", Toast.LENGTH_SHORT).show();
                             //display_mesures.setText(mesures_list.toString());
+                            found_last_mes=true;
                             displayLastMesure(filter_spinner.getSelectedItem().toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -236,21 +246,22 @@ public class LocalActivity extends AppCompatActivity {
 
     private void displayLastMesure(String _type) {
         String tempStr ="Couldnt find the last mesure-> "+getTypeMesure(_type) +"\r\n";
-        //TODO: add to string file^^^
-        if (_type.equals("Co2")){
+
+        if (_type.equals("Co2") && last_mes[0]!=null){
             tempStr="Last one: "+last_mes[0].taux+" at "+last_mes[0].date.getTime()+"\r\n";
         }
-        if (_type.equals("Temperature")) {
+        if (_type.equals("Temperature") && last_mes[1]!=null) {
             tempStr="Last one: "+last_mes[1].taux+" at "+last_mes[1].date.getTime()+"\r\n";
 
         }
-        if (_type.equals(getString(R.string.hum_string))) {
+        if (_type.equals(getString(R.string.hum_string)) &&last_mes[2]!=null ) {
             tempStr="Last one: "+last_mes[2].taux+" at "+last_mes[2].date.getTime()+"\r\n";
 
         }
 
         display_mesures.append(tempStr);
         System.out.println(tempStr);
+        //
     }
 
     private void initMesures() {
@@ -297,7 +308,9 @@ public class LocalActivity extends AppCompatActivity {
                             }
                             //Toast.makeText(getApplicationContext(), "All data fetched", Toast.LENGTH_SHORT).show();
                             //display_mesures.setText(mesures_list.toString());
+                            found_all_mes=true;
                             displayMesures(filter_spinner.getSelectedItem().toString());
+                            initLastMesures();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (ParseException e) {
