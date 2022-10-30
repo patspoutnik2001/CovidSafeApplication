@@ -48,15 +48,16 @@ public class SettingsActivity extends AppCompatActivity {
                     {
                         // When user taps the enable/disable
                         // dark mode button
-                        if (isDarkModeOn) {
+
+                        if (AppCompatDelegate.getDefaultNightMode()== AppCompatDelegate.MODE_NIGHT_YES) {
 
                             // if dark mode is on it
                             // will turn it off
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                             // it will set isDarkModeOn
                             // boolean to false
                             editor.putBoolean("isDarkModeOn", false);
                             editor.apply();
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
                             // change text of Button
                             //btnToggleDark.setText(R.string.btn_dark_mode);
@@ -65,12 +66,12 @@ public class SettingsActivity extends AppCompatActivity {
 
                             // if dark mode is off
                             // it will turn it on
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
                             // it will set isDarkModeOn
                             // boolean to true
                             editor.putBoolean("isDarkModeOn", true);
                             editor.apply();
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
                             // change text of Button
                             //btnToggleDark.setText(R.string.btn_off_dark_mode);

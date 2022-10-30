@@ -337,7 +337,7 @@ public class LocalActivity extends AppCompatActivity {
         barChart.setData(barData);
         barDataSet.setColors(ColorTemplate.PASTEL_COLORS);
         //text color
-        barDataSet.setValueTextColor(Color.BLACK);
+        barDataSet.setValueTextColor(R.color.textColor);
         //settting text size
         barDataSet.setValueTextSize(16f);
         barChart.getDescription().setEnabled(true);

@@ -34,8 +34,13 @@ public class LoginActivity extends AppCompatActivity {
         email_input = (TextView) findViewById(R.id.email_input);
         pass_input = (TextView) findViewById(R.id.password_input);
         mAuth = FirebaseAuth.getInstance();
-
-
+        SharedPreferences settings =getApplicationContext().getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        Boolean logged = settings.getBoolean("logged",false);
+        if (logged){
+            Intent intent = new Intent(this, ListeActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,5 +104,6 @@ public class LoginActivity extends AppCompatActivity {
     public void loginOK(){
         Intent intent = new Intent(this, ListeActivity.class);
         startActivity(intent);
+        finish();
     }
 }
