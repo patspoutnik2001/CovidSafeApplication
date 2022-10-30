@@ -265,7 +265,7 @@ public class LocalActivity extends AppCompatActivity {
     }
 
     private void initMesures() {
-        String url = "https://patryk.alwaysdata.net/CovidSafeRoom/api.php";
+        String url = "https://patryk.alwaysdata.net/CovidSafeRoom/api.php?idLocal="+current_local.id;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
