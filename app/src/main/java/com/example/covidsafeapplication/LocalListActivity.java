@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LocalListActivity extends AppCompatActivity {
 
@@ -35,9 +38,10 @@ public class LocalListActivity extends AppCompatActivity {
     Batiment batiment;
     ArrayList<Local> locals = new ArrayList<>();
 
-
-    float lon, lat;
+    String url="";
+    static float lon, lat=0;
     TextView tvTemp;
+    Context context;
 
 
     @Override
@@ -45,6 +49,7 @@ public class LocalListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_local_list);
 
+        context=this;
         local_listView = findViewById(R.id.local_list);
         display_tv = findViewById(R.id.local_name_display);
         tvTemp = findViewById(R.id.tvTemp);
@@ -98,9 +103,7 @@ public class LocalListActivity extends AppCompatActivity {
 
         loadWeatherByCityName();
     }
-
     private void loadWeatherByCityName() {
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("batiment")
                 .get()
@@ -115,9 +118,27 @@ public class LocalListActivity extends AppCompatActivity {
                                     // get latitude and longitude as float
                                     lat = Float.parseFloat(document.get("latitude").toString());
                                     lon = Float.parseFloat(document.get("longitude").toString());
-                                    System.out.println("lat: " + lat + " lon: " + lon);
-                                }
+                                    url = "https://api.openweathermap.org/data/2.5/weather?lat="+lat + "&lon="+ lon + "&appid=5bdff022d351650cee55cec49c82c67b&units=metric";
 
+                                    // get the temp from openweather api
+                                    Ion.with(context)
+                                            .load(url)
+                                            .asJsonObject()
+                                            .setCallback((e, result) -> {
+                                                if (e != null) {
+                                                    Toast.makeText(context, "Error "+e.toString(), Toast.LENGTH_SHORT).show();
+                                                    return;
+                                                }
+                                                if (result != null) {
+                                                    System.out.println(url);
+                                                    String temp = result.get("main").getAsJsonObject().get("temp").getAsString();
+                                                    System.out.println(temp);
+                                                    // transform the temp from kelvin to celsius
+                                                    //float celsius = Float.parseFloat(temp) - 283.15f + 1;
+                                                    tvTemp.setText("Temperature: " + temp + "°C");
+                                                }
+                                            });
+                                }
                             }
 
                         } else {
@@ -126,24 +147,6 @@ public class LocalListActivity extends AppCompatActivity {
                     }
                 });
 
-
-        // get the temp from openweather api
-        Ion.with(this)
-                .load("https://api.openweathermap.org/data/2.5/weather?lat="+ lat + "&lon="+ lon + "&appid=5bdff022d351650cee55cec49c82c67b")
-                .asJsonObject()
-                .setCallback((e, result) -> {
-                    if (e != null) {
-                        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    if (result != null) {
-                        String temp = result.get("main").getAsJsonObject().get("temp").getAsString();
-                        // transform the temp from kelvin to celsius
-                        float celsius = Float.parseFloat(temp) - 283.15f + 1;
-                        tvTemp.setText("Temperature: " + celsius + "°C");
-                    }
-
-                });
 
 
 

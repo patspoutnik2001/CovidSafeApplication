@@ -24,9 +24,9 @@
         android:id="@+id/tvTemp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:layout_marginBottom="50dp"/>
+        android:layout_marginBottom="50dp"
+        android:text="Temp"
+        android:textAlignment="center" />
 
     <ListView
         android:id="@+id/local_list"

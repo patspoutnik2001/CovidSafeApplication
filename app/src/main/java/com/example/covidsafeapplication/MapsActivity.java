@@ -1,19 +1,11 @@
 package com.example.covidsafeapplication;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,16 +16,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.covidsafeapplication.databinding.ActivityMapsBinding;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -43,11 +35,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     // public ArrayList<Marker> markers = new ArrayList<>();
     // hashmap of makers and their GoogleMap
     public HashMap<Marker, Batiment> markerMap = new HashMap<>();
+    Context context;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context=this;
 
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -83,12 +77,30 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     // add marker on the map
                                     LatLng latLngMark = new LatLng(lat, lng);
                                     // the zoom will be on last one added
-                                    l = latLngMark;
-                                    Marker marker = googleMap.addMarker(new MarkerOptions().position(latLngMark).title(batiment.nomBatiment));
-                                    markerMap.put(marker, batiment);
+                                    String url = "https://api.openweathermap.org/data/2.5/weather?lat="+lat + "&lon="+ lng + "&appid=5bdff022d351650cee55cec49c82c67b&units=metric";
+                                    l=latLngMark;
+                                    Ion.with(context)
+                                            .load(url)
+                                            .asJsonObject()
+                                            .setCallback((e, result) -> {
+                                                if (e != null) {
+                                                    Toast.makeText(context, "Error "+e.toString(), Toast.LENGTH_SHORT).show();
+                                                    return;
+                                                }
+                                                if (result != null) {
+                                                    System.out.println(url);
+                                                    String temp = result.get("main").getAsJsonObject().get("temp").getAsString();
+                                                    // transform the temp from kelvin to celsius
+                                                    //float celsius = Float.parseFloat(temp) - 283.15f + 1;
+                                                    //tvTemp.setText("Temperature: " + temp + "°C");
+                                                    Marker marker = googleMap.addMarker(new MarkerOptions().position(latLngMark).title(batiment.nomBatiment).snippet(temp+"°C"));
+                                                    markerMap.put(marker, batiment);
+                                                }
+                                            });
+
+
 
                                     // if market is clicked, go to the next activity
-
 
                                     googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                                         @Override
