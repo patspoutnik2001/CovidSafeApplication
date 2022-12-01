@@ -360,12 +360,16 @@ public class LocalActivity extends AppCompatActivity {
         //strForExport="";
         barChart.clear();
         display_mesures.setText("");
+
         displayOne(_type);
         makeChart();
 
     }
 
     private void displayOne(String _t) {
+        int last_day=0;
+        int last_month=0;
+        boolean changed_month=false;
         for (int i = 0; i < 7; i++) {
             int cpt=0;
             int current_day_sum=0;
@@ -379,12 +383,26 @@ public class LocalActivity extends AppCompatActivity {
             if (cpt!=0) {
                 current_day_sum = current_day_sum / cpt;
             }
-            String tempStr =Calendar.getInstance().get(Calendar.DAY_OF_MONTH)-i+"/"+Calendar.getInstance().get(Calendar.MONTH)+": Avarage "+getTypeMesure(_t)+ ": " + current_day_sum+ "\r\n";
+
+            Calendar cal = Calendar.getInstance();
+            int day =cal.getInstance().get(Calendar.DAY_OF_MONTH)-i;
+            int month = cal.getInstance().get(Calendar.MONTH);
+            month++;
+            System.out.println(month);
+            if (day<1) {
+                day += Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
+                cal.add(Calendar.MONTH, -1);
+                cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+                month--;
+            }
+            System.out.println("days in last month "+Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH-1));
+            String tempStr = day+"/"+month+": Avarage "+getTypeMesure(_t)+ ": " + current_day_sum+ "\r\n";
             //strForExport+=(tempStr);
             display_mesures.append(tempStr);
             barArraylist.add(new BarEntry((float) i,(float)current_day_sum));
         }
     }
+
 
     private ArrayList<Mesure> getMesureList(String t) {
         if (t=="1")
