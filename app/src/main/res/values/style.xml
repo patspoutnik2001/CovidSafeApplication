@@ -2,14 +2,14 @@
 <resources>
 <!--    create style for our buttons, borderless buttons-->
     <style name="ButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:background">#FFD700</item>
-        <item name="android:textColor">#FF0000</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:paddingTop">8dp</item>
-        <item name="android:paddingBottom">8dp</item>
-        <item name="android:paddingLeft">16dp</item>
-        <item name="android:paddingRight">16dp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:background">#FFFFFF</item>
+        <item name="android:textColor">#0066CC</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingLeft">24dp</item>
+        <item name="android:paddingRight">24dp</item>
+        <item name="android:elevation">4dp</item>
         <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
 
