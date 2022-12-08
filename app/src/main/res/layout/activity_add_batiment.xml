@@ -35,10 +35,14 @@
         android:minHeight="48dp" />
 
     <Button
+
+
         android:id="@+id/btn_addBatiment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/btn_add_new_building" />
+        android:text="@string/btn_add_new_building"
+        style="@style/ButtonStyle"
+        />
 
 </LinearLayout>

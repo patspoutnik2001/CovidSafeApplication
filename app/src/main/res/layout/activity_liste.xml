@@ -25,7 +25,9 @@
         android:layout_toLeftOf="@id/btn_go_to_profile"
         android:layout_marginTop="30dp"
         android:layout_marginRight="10dp"
-        android:text="@string/btn_logout" />
+        android:text="@string/btn_logout"
+        style="@style/ButtonStyle"
+        />
 
     <Button
         android:id="@+id/btn_go_to_profile"
@@ -41,7 +43,9 @@
         android:textAlignment="center"
         app:iconPadding="0dp"
         app:iconSize="30dp"
-        app:iconTintMode="add" />
+        app:iconTintMode="add"
+        style="@style/ButtonStyle"
+        />
 
 
 
@@ -52,7 +56,9 @@
         android:text="Add new"
         android:layout_toRightOf="@id/btn_go_to_profile"
         android:layout_marginTop="30dp"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        style="@style/ButtonStyle"
+        />
 
     <ListView
         android:id="@+id/batiments_view"

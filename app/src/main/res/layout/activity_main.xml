@@ -41,7 +41,9 @@
         android:layout_below="@id/logo_image"
         android:layout_centerInParent="true"
         android:layout_marginTop="50dp"
-        android:text="@string/title_activity_login" />
+        android:text="@string/title_activity_login"
+        style="@style/ButtonStyle"
+        />
 
     <Button
         android:id="@+id/qrCodePhoto"
@@ -50,7 +52,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:text="@string/btn_take_photo"
-        app:icon="@android:drawable/ic_menu_camera" />
+        app:icon="@android:drawable/ic_menu_camera"
+        style="@style/ButtonStyle"
+        />
 
 
 </RelativeLayout>

@@ -11,6 +11,11 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+
+        <!-- Customize all the buttons to borderless. -->
+        <item name="buttonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
+
+
     </style>
+
 </resources>
